@@ -1,0 +1,5 @@
+example.egg-info
+example/__pycache__
+tests/__pycache__
+venv
+.idea
