@@ -1,6 +1,6 @@
 import argparse
 
-from example import car
+from py_example import car
 
 
 def parseargs() -> argparse.Namespace:
