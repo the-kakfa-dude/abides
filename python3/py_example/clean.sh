@@ -2,7 +2,7 @@
 
 rm -rf ./venv
 
-rm -rf ./example.egg-info
+rm -rf ./py_example.egg-info
 
 rm -rf ./.pytest_cache
 
@@ -12,8 +12,11 @@ find . -type f | grep pyc$ | xargs rm -f
 
 find . -type d | grep __pycache__ | xargs rm -rf
 
-docker ps -a | grep 'example:latest' | awk '{print $NF}' | xargs docker rm
+docker rm $(docker ps -a | grep 'py_example:latest' | awk '{print $NF}')
 
-docker images | tr -s ' ' | grep 'example latest' | cut -d' ' -f3 | xargs docker rmi
+docker rmi $(docker images | tr -s ' ' | grep 'py_example latest' | cut -d' ' -f3)
 
 docker image prune --force
+
+
+
