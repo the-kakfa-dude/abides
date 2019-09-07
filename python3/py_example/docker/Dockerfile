@@ -1,6 +1,7 @@
 FROM python:3.7
 
-ADD . /example
+ADD . /py_example
 
-WORKDIR /example
+WORKDIR /py_example
 RUN pip install -e .
+

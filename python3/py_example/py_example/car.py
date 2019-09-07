@@ -1,4 +1,4 @@
-class Car(object):
+class Car():
     """
     A CRUD class for cars
     """

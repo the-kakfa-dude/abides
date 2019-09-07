@@ -1,4 +1,4 @@
-from example.car import Car
+from py_example.car import Car
 
 
 def test_tesla(tesla):
