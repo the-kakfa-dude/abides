@@ -96,7 +96,10 @@ start-sonar-server.sh
  - starts the sonar server. 
 
 stop-sonar-server.sh
-  - stops the sonar server. run this when you're done for the day.
+ - stops the sonar server. run this when you're done for the day.
+
+my_project.sh
+ - on a fresh checkout of this sample project, you can pass this script a new project name, and it will update all the `py_sonar` hardcoded references.
 
 ### Why comments this time ???
 
