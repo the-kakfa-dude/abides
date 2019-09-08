@@ -1,0 +1,8 @@
+.idea
+.pytest_cache
+py_sonar.egg-info
+py_sonar/__pycache__
+sonar.log.txt
+tests/__pycache__
+venv
+
