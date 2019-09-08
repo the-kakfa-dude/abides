@@ -1,5 +1,7 @@
-example.egg-info
-example/__pycache__
+py_example.egg-info
+py_example/__pycache__
 tests/__pycache__
 venv
 .idea
+.pytest_cache
+
