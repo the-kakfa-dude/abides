@@ -1,0 +1,128 @@
+plugins {
+    // Apply the java plugin to add support for Java
+    id 'java'
+
+    // Apply the application plugin to add support for building a CLI application
+    id 'application'
+    
+    // sonar
+    id "jacoco"
+    id "org.sonarqube" version "2.7.1"
+
+    // sonarqube server runs via docker-compose
+    id 'com.avast.gradle.docker-compose' version '0.9.4'
+}
+
+dockerCompose {
+    useComposeFiles = ['docker-compose.yaml']
+    containerLogToDir = project.file('sonar')
+    removeVolumes = false
+}
+
+application {
+    // Define the main class for the application
+    mainClassName = 'java_sonar.App'
+}
+
+sourceSets {
+    funcTest {
+        java {
+        	compileClasspath += sourceSets.main.output + sourceSets.test.output
+        	runtimeClasspath += sourceSets.main.output + sourceSets.test.output
+        	srcDirs file('src/funcTest/java')
+        }
+    }
+}
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+configurations {
+    funcTestImplementation.extendsFrom implementation
+    funcTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+    // This dependency is used by the application.
+    implementation 'com.google.guava:guava:28.0-jre'
+
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+    funcTestImplementation 'junit:junit:4.12'
+}
+
+
+task sourcesJar(type: Jar) {
+
+    archiveClassifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task uberJar(type: Jar) {
+
+    archiveClassifier = 'uber'
+
+    from sourceSets.main.output
+    from sourceSets.test.output
+    from sourceSets.funcTest.output
+    
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
+
+task funcTest(type: Test, group: 'Verification', description: 'Runs functional tests.') {
+
+    testClassesDirs = sourceSets.funcTest.output.classesDirs
+    classpath = sourceSets.funcTest.runtimeClasspath
+    
+    outputs.upToDateWhen { false }
+}
+
+def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
+
+task jacocoMergeTest(type: JacocoMerge, dependsOn: ['test', 'funcTest']) {
+    destinationFile = file(allTestCoverageFile)
+    executionData = project.fileTree(dir: '.', include:'**/build/jacoco/*.exec')
+}
+
+task jacocoMerge(dependsOn: ['jacocoMergeTest']) {
+    // used to run the other merge tasks
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+def allTestReportFile = "$buildDir/reports/allTests/"
+
+task testReport(type: TestReport,
+                group: 'Verification',
+                description: 'Merge the results from both `test` and `funcTest` task.') {
+    destinationDir = file(allTestReportFile)
+    reportOn subprojects*.test
+    reportOn subprojects*.funcTest
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectName', 'java_sonar'
+        properties["sonar.tests"] += sourceSets.funcTest.allSource.srcDirs
+        property "sonar.jacoco.reportPaths", allTestCoverageFile
+    }
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+check.dependsOn uberJar
+check.dependsOn funcTest
+check.dependsOn jacocoMerge
+check.dependsOn testReport
