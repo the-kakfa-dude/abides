@@ -1,7 +1,11 @@
+.coverage
 .idea
 .pytest_cache
+coverage.sonar.xml
+coverage.xml
 py_sonar.egg-info
 py_sonar/__pycache__
+pylint.report
 sonar.log.txt
 tests/__pycache__
 venv
