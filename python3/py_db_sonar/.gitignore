@@ -1,0 +1,15 @@
+.coverage
+.idea
+.pytest_cache
+coverage.sonar.xml
+coverage.xml
+functional_tests/__pycache__
+postgres.log.txt
+py_db_sonar.egg-info
+py_db_sonar/__pycache__
+py_db_sonar/orm/__pycache__/
+pylint.report
+sonar.log.txt
+tests/__pycache__
+venv
+
