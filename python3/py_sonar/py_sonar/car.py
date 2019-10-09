@@ -1,22 +1,23 @@
 class Car():
     """
-    A CRUD class for cars
+    A class for cars
     """
     def __init__(self, make: str, model: str):
-        self._make = make
-        self._model = model
+        self.make = make
+        self.model = model
 
     def get_make(self) -> str:
-        return self._make
+        return self.make
 
     def get_model(self) -> str:
-        return self._model
+        return self.model
 
     def set_make(self, make):
-        self._make = make
+        self.make = make
 
     def set_model(self, model):
-        self._model = model
+        self.model = model
 
     def drive(self):
-        print(f"vroom vroom goes the {self._make} {self._model}")
+        message = f"vroom vroom goes the {self.make} {self.model}"
+        print(message)
