@@ -22,12 +22,11 @@ flake8
 #
 # the magic formatting mumbo-jumbo makes sonar happy.
 #
-pylint py_sonar -r n --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee ./pylint.report
-pylint tests    -r n --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee -a ./pylint.report
+pylint py_sonar tests -r n --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}" | tee ./pylint.report
 
 # we also send sonar the test coverage report.
 #
-pytest --cov-report xml --cov=py_sonar tests/
+pytest --cov-report xml --cov=py_sonar tests
 
 # we which need to make look like it was run in the container.
 #
