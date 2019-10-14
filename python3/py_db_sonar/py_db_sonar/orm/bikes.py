@@ -2,11 +2,11 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from py_db_sonar import DB_ENGINE
 
-Base = declarative_base()
-Initialized = False
+BASE = declarative_base()
+INIT = False
 
 
-class BikesTable(Base):
+class BikesTable(BASE):
     """
     This is an ORM Class for the bikes table, using SQL Alchemy as the ORM provider.
     """
@@ -21,7 +21,10 @@ class BikesTable(Base):
     def __repr__(self):
         return f'{self.__tablename__}({self.id}, {self.name}, {self.bmx})'
 
+    def __str__(self):
+        return self.__repr__()
 
-if not Initialized:
-    Initialized = True
-    Base.metadata.create_all(bind=DB_ENGINE)
+
+if not INIT:
+    INIT = True
+    BASE.metadata.create_all(bind=DB_ENGINE)

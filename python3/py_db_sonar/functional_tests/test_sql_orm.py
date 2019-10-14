@@ -31,11 +31,10 @@ def test_insert(db_session_maker, schwinn, trek, diamondback):
         add_bike_and_commit(db_session, schwinn)
         add_bike_and_commit(db_session, trek)
         add_bike_and_commit(db_session, diamondback)
-
-        assert True
-    except sqlalchemy.exc.SQLAlchemyError as e:
-        print(e)
-        assert e is None  # fail this test
+        assert True  # pass this test
+    except sqlalchemy.exc.SQLAlchemyError as error:
+        print(f'Problem adding bikes to db: {error}')
+        assert error is None  # fail this test
     finally:
         db_session.close()
 
@@ -61,7 +60,7 @@ def test_select(db_session_maker, schwinn, trek, diamondback):
     assert results[2].bmx
 
 
-def test_update(db_session_maker, schwinn, trek, diamondback):
+def test_update(db_session_maker, schwinn):
     """
     Validates that we can insert into the bikes table.
 
@@ -87,7 +86,7 @@ def test_update(db_session_maker, schwinn, trek, diamondback):
     assert results[0].bmx
 
 
-def test_dslete(db_session_maker, schwinn, trek, diamondback):
+def test_dslete(db_session_maker, schwinn):
     """
     Validates that we can delete a bike
 
