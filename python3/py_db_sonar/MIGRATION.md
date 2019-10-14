@@ -22,7 +22,7 @@ git clone git@github.com:the-kakfa-dude/abides
 
 mkdir workdir
 
-rsync -avPr ./abides/python3/py_sonar ./workdir/
+rsync -avPr ./abides/python3/py_db_sonar ./workdir/
 ```
 
 
@@ -38,11 +38,11 @@ rsync -avPr ~/projects/acme ./workdir/
 ```bash
 cd workdir
 
-mv py_sonar acme_py_sonar
+mv py_db_sonar acme_py_db_sonar
 
-cd acme_py_sonar/
+cd acme_py_db_sonar/
 
-./my_project.sh acme_py_sonar
+./my_project.sh acme_py_db_sonar
 ```
 
 
@@ -83,7 +83,7 @@ And then generate the sonar report:
 
 Go to the project page on localhost:9000 for this project skin:
 
-http://localhost:9000/dashboard?id=acme_py_sonar%3Aproject
+http://localhost:9000/dashboard?id=acme_py_db_sonar%3Aproject
 
 #### NOTE
 
@@ -101,9 +101,11 @@ Once you have some funky rule changes, all you have to do is rerun the same sona
 ### Nuke the shell project code
 
 ```bash
-rm -rf ./acme_py_sonar/*
+rm -rf ./acme_py_db_sonar/*
 
 rm -rf ./tests/*
+
+rm -rf ./functional_tests/*
 ```
 
 
@@ -111,16 +113,16 @@ rm -rf ./tests/*
 
 In this example, we assume that the `finish_me` project has some database files, some shells scripts, and some stuff related to a variant called `alt_finish_me.sh` that we want to get rid of.
 
-We're also assuming they put their tests next to their source, as opposed to where we put it, which is next to the project source directory `acme_py_sonar`. If this is your case aswell take my advice, **trust me**, move their tests into our test directory.
+We're also assuming they put their tests next to their source, as opposed to where we put it, which is next to the project source directory `acme_py_db_sonar`. If this is your case aswell take my advice, **trust me**, move their tests into our test directory.
 
 Lastly, we use a setup.py, but let's assume the other project just had a requirements.txt.
 
 ```bash
 rsync -avPr ~/projects/acme/*.sh ./
 
-rsync -avPr ~/projects/acme/finish_me/*.py ./acme_py_sonar/
+rsync -avPr ~/projects/acme/finish_me/*.py ./acme_py_db_sonar/
 
-rsync -avPr ~/projects/acme/finish_me/*.sql ./acme_py_sonar/
+rsync -avPr ~/projects/acme/finish_me/*.sql ./acme_py_db_sonar/
 
 rm ./alt_finish_me_script.sh
 
@@ -131,10 +133,13 @@ rsync -avPr ~/projects/acme/requirements.txt ./acme.requirements.txt
 # you _really_ want to move their tests into where we expect to find them.
 #
 rsync -avPr ~/projects/acme/finish_me/tests/* ./tests/
+
+rsync -avPr ~/projects/acme/finish_me/functional_tests/* ./functional_tests/
 ```
 
 
 ### Reminder that our run scripts need love
+When you are porting someone elses code, you are about 99% sure you don't run it like we ran our starter project code.
 
 ```bash
 truncate -s 0 run.sh
@@ -143,7 +148,7 @@ echo "echo 'IMPLEMENT ME'" >> run.sh
 
 truncate -s 0 docker-run.sh
 echo '#!/usr/bin/env bash' >> docker-run.sh
-echo 'docker run -t --rm acme_py_sonar:latest ./run.sh' >> docker-run.sh
+echo 'docker run -t --rm acme_py_db_sonar:latest ./run.sh' >> docker-run.sh
 ```
 
 
@@ -154,14 +159,14 @@ echo 'docker run -t --rm acme_py_sonar:latest ./run.sh' >> docker-run.sh
 
 ### Skin the Acme code
 
-We need to rename the internal "finish_me" references in their code to our new project name: `acme_py_sonar`
+We need to rename the internal "finish_me" references in their code to our new project name: `acme_py_db_sonar`
 
 **You might want to backup at this point.**
 
 Note: Because `sed -i` is broken on vanilla OS X, we pipe the code through `sed` to a temp file, remove the original, and then rename the temp file back. The drawback is we lose the executable bit on the shell scripts, so we have to add those back manually.
 
 ```bash
-for file in $(grep -R finish_me . | grep -v Binary | cut -d':' -f1 | sort | uniq); do echo $file; cat $file | sed 's/finish_me/acme_py_sonar/g' > ${file}.fixed && rm $file && mv ${file}.fixed $file; done
+for file in $(grep -R finish_me . | grep -v Binary | cut -d':' -f1 | sort | uniq); do echo $file; cat $file | sed 's/finish_me/acme_py_db_sonar/g' > ${file}.fixed && rm $file && mv ${file}.fixed $file; done
 
 chmod +x *.sh
 
@@ -172,7 +177,7 @@ chmod +x *.sh
 ```bash
 ./Acme.README.md
 ./some_script.sh
-./acme_py_sonar/__init__.py
+./acme_py_db_sonar/__init__.py
 ./run_finish_me.sh
 ./tests/conftest.py
 ```
@@ -182,7 +187,7 @@ chmod +x *.sh
 The sed in the readme change now assumes the script name for running the server has changed. Make it so:
 
 ```bash
-mv ./run_finish_me.sh run_acme_py_sonar.sh
+mv ./run_finish_me.sh run_acme_py_db_sonar.sh
 ```
 
 
@@ -221,7 +226,7 @@ Peek in the Acme readme to see how to start and test the server.
 
 ```bash
 . ./venv/bin/activate
-./run_acme_py_sonar.sh 
+./run_acme_py_db_sonar.sh 
 ```
 
 
@@ -255,3 +260,11 @@ You can now stop your sonar server. Don't worry, all the data will still be ther
 ```bash
 ./stop-sonar-server.sh
 ```
+
+You might also want to shut down your test database.
+
+The data in it will persist across restarts, but when our scripts run functional tests, they recreate the database first.
+```bash
+./stop-db.sh
+```
+

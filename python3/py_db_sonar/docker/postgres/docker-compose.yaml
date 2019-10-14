@@ -1,0 +1,25 @@
+# This was ripped from sonar's postgres container
+
+version: "2"
+
+services:
+  db:
+    image: postgres:11  # we can't use latest becuase brew lags behind, and we need psql
+    networks:
+      - py_db_sonar_net
+    environment:
+      - POSTGRES_PASSWORD=py_db_sonar_sudo
+    volumes:
+      - py_db_sonar:/var/lib/postgresql
+      - py_db_sonar_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+networks:
+  py_db_sonar_net:
+    driver: bridge
+
+volumes:
+  py_db_sonar:
+  py_db_sonar_data:
+

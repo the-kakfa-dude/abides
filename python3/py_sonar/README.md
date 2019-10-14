@@ -8,7 +8,7 @@ For truly bare-bones, looke at the `py_example` sibling project.
 
 Do this in one window:
 ```bash
-  ./start-sonar-server.sh; tail -f sonar.log.txt 
+  ./start-sonar-server.sh; tail -F sonar.log.txt 
 ```
 
 When it you see the log saying something like:
