@@ -1,6 +1,6 @@
 # Python3 Example with Quality Analysis and a Database
 
-This is a **semi-mature** sample python 3 project that comes with a sonar server, and a database for functional tests.
+This is a **semi-mature** sample python 3 project that comes with a sonar server, and a postgres database for functional tests.
 
 If you don't need functional tests or a database, try the `py_sonar` project instead.
 
@@ -8,7 +8,7 @@ The bare-bones project is called `py_example`.
 
 ## Database
 ### Starting
-Start that Postgres database now, since the first time you do this, it can be slow.
+Start the Postgres database now, since the first time you do this, it can be slow.
 ```bash
 ./start-db.sh ; tail -F postgres.log.txt
 ```
@@ -178,6 +178,12 @@ Also, after you change the rules, you have to rerun the `sonar-run.sh` script.
 If you also changed your code, you should first run the build.sh script, followed by the sonar-build.sh script.
 
 The other gotcha here, is that you have to log in (admin/admin) and 
+
+## The Big One
+If you just want to run the whole flow without typing anything, here you go:
+```bash
+./clean.sh && ./build.sh && ./run.sh && ./docker-build.sh && ./docker-run.sh && ./sonar-build.sh && ./sonar-run.sh
+```
 
 ## Done for the Day
 When you've found and fixed all the problems, why not clean up before you leave?
