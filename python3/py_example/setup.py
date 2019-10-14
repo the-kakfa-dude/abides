@@ -9,5 +9,6 @@ requirements = [
 setup(name="py_example",
       version="0.0.0",
       author="Damon Berry",
+      license="LICENSE.txt",
       packages=find_packages(),
       install_requires=requirements)
