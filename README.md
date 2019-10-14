@@ -12,14 +12,12 @@ This example project is then extended to include other aspects you would want in
 
 ### Work In Progress
 
-Right now, we are adding a (postgres) database to the `py_sonar` project, which is will be checked in next to it as `py_db_sonar`. As such, the support for functional tests we added in the `java_sonar` project will also be added to facilitate functional tests of our database code.
-
-We also have a typescript project being worked on in the background.
+We have a typescript project being worked on in the background.
 
 ### Future Work
 
 #### HTTP Server
-After adding a database to the python starter project, we will then add a REST server to that project.
+After just adding python starter project with a database and functional tests, we will next add a REST server.
 
 #### Code Generation
 In a subsequent project, we may choose to define that API Interface in Swagger, and appeal to some code-generation so that if that if someone changes the swagger without updating the underlying implementation, that implementation will generate (compile time) failures, for immediate alerting that something got out of sync. In the code generation project, we can also anticipate that certain implementation changes might also cause compile-time failures if the swagger was not also updated.
