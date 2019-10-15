@@ -19,14 +19,14 @@ CURRENT_PACKAGE="com.kakfa"
 NEW_PROJECT="$1"
 if [[ "x" == "x${NEW_PROJECT}" ]]
  then
-  echo "Pass me the new project name. The current package is called 'java_example'"
+  echo "Pass me the new project name. The current package is called 'foo'"
   exit 1
 fi
 #
 NEW_PACKAGE="$2"
 if [[ "x" == "x${NEW_PACKAGE}" ]]
  then
-  echo "Pass me the new package name. The current package is called 'com.kakfa'"
+  echo "Pass me the new package name. The current package is called 'bar'"
   exit 1
 fi
 
@@ -119,12 +119,15 @@ change_names "$CP_REGEX" "$NP_REGEX"
 CURRENT_DIR=$(to_directory_regex "$CURRENT_PACKAGE")
 NEW_DIR=$(to_directory_regex "$NEW_PACKAGE")
 
-mkdir -p $NEW_DIR
+mkdir -p ./src/main/java/${NEW_DIR}
+mkdir -p ./src/test/java/${NEW_DIR}
 
 # be naive and assume all we need to move is the contents
 # of the final package.
-#rsync -avPr ./${CURRENT_DIR}/* ./${NEW_DIR}/
-#rm -rf ./${CURRENT_DIR}
+rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
+rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/teest/java/${NEW_DIR}/
+
+rm -rf ./src/main/java/${CURRENT_DIR} ./src/main/test/${CURRENT_DIR}
 
 # since we couldn't sed the files in place (thanks apple),
 # we have to reset the executable bit on our shell scripts
