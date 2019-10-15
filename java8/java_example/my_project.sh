@@ -19,14 +19,14 @@ CURRENT_PACKAGE="com.kakfa"
 NEW_PROJECT="$1"
 if [[ "x" == "x${NEW_PROJECT}" ]]
  then
-  echo "Pass me the new project name. The current package is called 'foo'"
+  echo "Pass me the new project name. The current project is: ${CURRENT_PROJECT}"
   exit 1
 fi
 #
 NEW_PACKAGE="$2"
 if [[ "x" == "x${NEW_PACKAGE}" ]]
  then
-  echo "Pass me the new package name. The current package is called 'bar'"
+  echo "Pass me the new package name. The current package is: ${CURRENT_PACKAGE}"
   exit 1
 fi
 
