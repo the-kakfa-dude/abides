@@ -125,9 +125,9 @@ mkdir -p ./src/test/java/${NEW_DIR}
 # be naive and assume all we need to move is the contents
 # of the final package.
 rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
-rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/teest/java/${NEW_DIR}/
+rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/test/java/${NEW_DIR}/
 
-rm -rf ./src/main/java/${CURRENT_DIR} ./src/main/test/${CURRENT_DIR}
+rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR}
 
 # since we couldn't sed the files in place (thanks apple),
 # we have to reset the executable bit on our shell scripts
