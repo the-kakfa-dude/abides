@@ -21,7 +21,7 @@ dockerCompose {
 
 application {
     // Define the main class for the application
-    mainClassName = 'java_sonar.App'
+    mainClassName = 'com.kakfa.App'
 }
 
 sourceSets {

@@ -1,4 +1,4 @@
-package java_sonar;
+package com.kakfa;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

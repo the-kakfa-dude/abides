@@ -1,4 +1,4 @@
-package java_sonar;
+package com.kakfa;
 
 import java.util.logging.Level; 
 import java.util.logging.Logger; 

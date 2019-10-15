@@ -1,4 +1,4 @@
-package java_sonar;
+package com.kakfa;
 
 import java.io.BufferedReader;
 import java.io.File;
