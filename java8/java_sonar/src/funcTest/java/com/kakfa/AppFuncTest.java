@@ -1,4 +1,4 @@
-package java_sonar;
+package com.kakfa;
 
 import org.junit.After;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class AppFuncTest {
     public void testAsProcess() {
         
         File directory = new File(WORKING_DIR);
-        String[] commands = { "java", "-cp", "./build/libs/java_sonar.jar", "java_sonar.App" };
+        String[] commands = { "java", "-cp", "./build/libs/java_sonar.jar", "com.kakfa.App" };
         String[] results = FuncTestUtils.getInstance().executeCommands(commands, directory, TIMEOUT_SECONDS);
         
         assertEquals("We didn't get two strings back", 2, results.length);

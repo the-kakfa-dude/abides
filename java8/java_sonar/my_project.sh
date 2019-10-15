@@ -11,7 +11,7 @@
 # so if running this script crashes,
 # you will want to checkout a fresh copy.
 #
-CURRENT_PROJECT="java_example"
+CURRENT_PROJECT="java_sonar"
 CURRENT_PACKAGE="com.kakfa"
 
 # parse command line args
@@ -85,20 +85,6 @@ function change_names() {
   done
 }
 
-NEW_PROJECT="$1"
-if [[ "x" == "x${NEW_PROJECT}" ]]
- then
-  echo "Pass me the new project name. The current package is called: $CURRENT_PROJECT"
-  exit 1
-fi
-
-NEW_PACKAGE="$2"
-if [[ "x" == "x${NEW_PACKAGE}" ]]
- then
-  echo "Pass me the new package name. The current package is called: $CURRENT_PACKAGE"
-  exit 1
-fi
-
 
 # replace the project name
 #
@@ -121,13 +107,15 @@ NEW_DIR=$(to_directory_regex "$NEW_PACKAGE")
 
 mkdir -p ./src/main/java/${NEW_DIR}
 mkdir -p ./src/test/java/${NEW_DIR}
+mkdir -p ./src/funcTest/java/${NEW_DIR}
 
-# be naive and assume all we need to move is the contents
-# of the final package.
+# be naive and assume all we need to move is the contents of the final package.
+#
 rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
 rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/test/java/${NEW_DIR}/
+rsync -avPr ./src/funcTest/java/${CURRENT_DIR}/* ./src/funcTest/java/${NEW_DIR}/
 
-rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR}
+rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR} ./src/funcTest/java/${CURRENT_DIR}
 
 # since we couldn't sed the files in place (thanks apple),
 # we have to reset the executable bit on our shell scripts
