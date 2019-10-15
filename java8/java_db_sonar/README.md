@@ -1,15 +1,14 @@
-# Java 8 Example With Gradle Build System and Quality Analysis
+# Java 8 Example With Gradle Build System, Quality Analysis, and Database
 
 This is a sample project that uses the Gradle build system,
 and uses a SonarQube server for Quality Analysis.
 
+It also comes with a Postgres Database and functional tests that use that db.
+
 This project was written for Java 8.
 
-The tests are all unit tests, and in the standard location.
-
-If you don't need want quality analysis, see our sibling project `java_example`. 
-
-If you want support for functional tests and/or a database, try `java_db_sonar`.
+If you don't need a database and/or functional tests, see our sibling project `py_sonar`.
+If you also don't need quality analysis, the barest-bones project is `java_example`.
 
 
 ### Start The Sonar Server
@@ -25,6 +24,7 @@ Then go to:
 and wait until it's done "starting up".
 
 NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gradlew sonar` task to fail.
+
 
 ### Clean It
 
@@ -67,7 +67,7 @@ For example, a regular jar might not include your Google Collections guava.jar, 
 If you want to rebuild and rerun everything from scratch, do this:
 
 ```bash
-rm -rf .gradle ./build ./bin ; ./gradlew clean build test jar uberJar run sonar
+rm -rf .gradle ./build ./bin ; ./gradlew clean build test jar uberJar funcTest run sonar
 ```
 
 ### But I Don't Need To Type That Much!
@@ -79,9 +79,9 @@ as some will run others.
 For instance, a build will do a test, a run will do build but not a jar,
 and so on. The result is you end up getting some tasks for free.
 
-However, as soon as you start adding new tasks (like a sonar task, or an uberJar),
-or otherwise start changing the `build.gradle` file, it's pretty easy to screw up
-your task dependency graph, and get weird behavior when running gradle.
+However, as soon as you start adding new tasks (like a sonar task, or a task for
+functional tests), or otherwise start changing the `build.gradle` file, it's pretty
+easy to screw up your task dependency graph, and get weird behavior when running gradle.
 
 Gradle will protect you from creating circular dependencies, but it won't read your mind.
 
@@ -126,8 +126,8 @@ will also have one of these.
 If you do this after changing stuff around, you'll get burned by the script.
 
 For the `my_project.sh` in _this_ project, you pass it a new project name and
-a new package name. The current project name is `java_sonar` and the current
-java package is `com.kakfa`
+a new package name. The current project name is `java_db_sonar` and the current
+java package is `com.kakfa.db`
 
 For example, if you wanted to call this project `bunnies` and you were working for
 the platform team at a company called `example.com`, you would invoke the script
@@ -144,7 +144,7 @@ Make sure you follow the final instruction by cd-ing out of the current director
 and then cd-ing back into the newly renamed one.
 
 After that, you can test the result by running a `rm -rf .gradle ;  ./gradlew run`
-and seeing if it spits out `Hello world.`
+and seeing if it spits out `Hello database.`
 
 
 ## Enjoy!
