@@ -85,49 +85,61 @@ function change_names() {
   done
 }
 
-NEW_PROJECT="$1"
-if [[ "x" == "x${NEW_PROJECT}" ]]
+
+if [[ "$CURRENT_PROJECT" != "$NEW_PROJECT" ]]
  then
-  echo "Pass me the new project name. The current package is called: $CURRENT_PROJECT"
-  exit 1
+
+  # replace the project name
+  #
+  change_names "$CURRENT_PROJECT" "$NEW_PROJECT"
 fi
 
-NEW_PACKAGE="$2"
-if [[ "x" == "x${NEW_PACKAGE}" ]]
+if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
  then
-  echo "Pass me the new package name. The current package is called: $CURRENT_PACKAGE"
-  exit 1
+  # changing the package names requires escaping the dot characters.
+  #
+  CP_REGEX=$(to_package_regex "$CURRENT_PACKAGE")
+  NP_REGEX=$(to_package_regex "$NEW_PACKAGE")
+  change_names "$CP_REGEX" "$NP_REGEX"
+
+  # move the code fromm the old package to the new one.
+  #
+  # the easiest way to do this is to just create the two
+  # new directories (one in main, one in test) and rsync
+  # the code from the old location to the new location.
+  #
+  CURRENT_DIR=$(to_directory_regex "$CURRENT_PACKAGE")
+  NEW_DIR=$(to_directory_regex "$NEW_PACKAGE")
+
+  mkdir -p ./src/main/java/${NEW_DIR}
+  mkdir -p ./src/test/java/${NEW_DIR}
+
+  # be naive and assume all we need to move is the contents
+  # of the final package.
+  rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
+  rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/test/java/${NEW_DIR}/
+
+  # if the target dir is different than the source dir,
+  # and not a sub-dir, then we should remove the source dir.
+  #
+  # if it is a sub-dir, we need to remove the files from the parent,
+  # but leave the directories alone, since one of those directories
+  # contains the newly packaged code.
+  #
+  if [[ $NEW_DIR != $CURRENT_DIR ]]
+   then
+    if [[ $NEW_DIR == $CURRENT_DIR* ]]
+     then
+      # it's a subdir. remove the files from the parent, but not the directories
+      #
+      rm -f ./src/main/java/${CURRENT_DIR}/* ./src/test/java/${CURRENT_DIR}/*
+     else
+      # it's just a regular old dir. remove it.
+      #
+      rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR}
+     fi
+   fi
 fi
-
-
-# replace the project name
-#
-change_names "$CURRENT_PROJECT" "$NEW_PROJECT"
-
-# changing the package names requires escaping the dot characters.
-#
-CP_REGEX=$(to_package_regex "$CURRENT_PACKAGE")
-NP_REGEX=$(to_package_regex "$NEW_PACKAGE")
-change_names "$CP_REGEX" "$NP_REGEX"
-
-# move the code fromm the old package to the new one.
-#
-# the easiest way to do this is to just create the two
-# new directories (one in main, one in test) and rsync
-# the code from the old location to the new location.
-#
-CURRENT_DIR=$(to_directory_regex "$CURRENT_PACKAGE")
-NEW_DIR=$(to_directory_regex "$NEW_PACKAGE")
-
-mkdir -p ./src/main/java/${NEW_DIR}
-mkdir -p ./src/test/java/${NEW_DIR}
-
-# be naive and assume all we need to move is the contents
-# of the final package.
-rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
-rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/test/java/${NEW_DIR}/
-
-rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR}
 
 # since we couldn't sed the files in place (thanks apple),
 # we have to reset the executable bit on our shell scripts
