@@ -10,8 +10,8 @@
 #
 # To force it to go down, run these:
 #
-#    docker stop postgres_db_1
-#    docker rm -v postgres_db_1
+#    docker stop postgres_test_db_1
+#    docker rm -v postgres_test_db_1
 #
 # and then run this script again.
 #

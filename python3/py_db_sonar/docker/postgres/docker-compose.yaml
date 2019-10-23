@@ -3,7 +3,7 @@
 version: "2"
 
 services:
-  db:
+  test_db:
     image: postgres:11  # we can't use latest becuase brew lags behind, and we need psql
     networks:
       - py_db_sonar_net
@@ -13,7 +13,7 @@ services:
       - py_db_sonar:/var/lib/postgresql
       - py_db_sonar_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
 networks:
   py_db_sonar_net:

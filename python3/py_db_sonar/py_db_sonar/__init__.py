@@ -4,7 +4,7 @@ DRIVER = 'postgresql+psycopg2'
 USER = 'py_db_sonar_user'
 PASSWORD = 'py_db_sonar_pass'
 SERVER = 'localhost'
-PORT = 5432
+PORT = 5433
 DATABASE = 'py_db_sonar'
 POSTGRES_URL = f'{DRIVER}://{USER}:{PASSWORD}@{SERVER}:{PORT}/{DATABASE}'
 
