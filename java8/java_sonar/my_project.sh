@@ -113,6 +113,7 @@ if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
 
   mkdir -p ./src/main/java/${NEW_DIR}
   mkdir -p ./src/test/java/${NEW_DIR}
+
   # be naive and assume all we need to move is the contents
   # of the final package.
   rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
