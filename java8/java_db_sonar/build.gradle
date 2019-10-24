@@ -87,38 +87,34 @@ task funcTest(type: Test, group: 'Verification', description: 'Runs functional t
     outputs.upToDateWhen { false }
 }
 
-def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
-
-task jacocoMergeTest(type: JacocoMerge, dependsOn: ['test', 'funcTest']) {
-    destinationFile = file(allTestCoverageFile)
-    executionData = project.fileTree(dir: '.', include:'**/build/jacoco/*.exec')
+test {
+	//Empty or something here, it does not matter
 }
 
-task jacocoMerge(dependsOn: ['jacocoMergeTest']) {
-    // used to run the other merge tasks
-}
+task testReport(type: JacocoReport) {
 
-jacocoTestReport {
+    def mainSrc = "${project.projectDir}/src/main/java"
+    def classSrc = "$buildDir/classes/java/main/com/kakfa/db/"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([classSrc])
+
+    executionData = fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
+	
     reports {
-        xml.enabled true
+        csv.enabled = false
+        html.enabled = false
+        xml.enabled = true
+        xml.destination = file("${buildDir}/reports/report.xml")
     }
-}
-
-def allTestReportFile = "$buildDir/reports/allTests/"
-
-task testReport(type: TestReport,
-                group: 'Verification',
-                description: 'Merge the results from both `test` and `funcTest` task.') {
-    destinationDir = file(allTestReportFile)
-    reportOn subprojects*.test
-    reportOn subprojects*.funcTest
 }
 
 sonarqube {
     properties {
         property 'sonar.projectName', 'java_db_sonar'
-        properties["sonar.tests"] += sourceSets.funcTest.allSource.srcDirs
-        property "sonar.jacoco.reportPaths", allTestCoverageFile
+        property 'sonar.tests', 'src/test, src/funcTest'
+        property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/report.xml"
+        
     }
 }
 
@@ -127,5 +123,4 @@ targetCompatibility = '1.8'
 
 check.dependsOn uberJar
 check.dependsOn funcTest
-check.dependsOn jacocoMerge
 check.dependsOn testReport
