@@ -4,7 +4,7 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application
     id 'application'
-    
+
     // sonar
     id "jacoco"
     id "org.sonarqube" version "2.7.1"
@@ -49,6 +49,9 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:28.0-jre'
 
+    // We need the postgres driver to talk to the databas
+    implementation 'org.postgresql:postgresql:42.2.7'
+
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     funcTestImplementation 'junit:junit:4.12'
@@ -68,7 +71,7 @@ task uberJar(type: Jar) {
     from sourceSets.main.output
     from sourceSets.test.output
     from sourceSets.funcTest.output
-    
+
 
     dependsOn configurations.runtimeClasspath
     from {
@@ -80,7 +83,7 @@ task funcTest(type: Test, group: 'Verification', description: 'Runs functional t
 
     testClassesDirs = sourceSets.funcTest.output.classesDirs
     classpath = sourceSets.funcTest.runtimeClasspath
-    
+
     outputs.upToDateWhen { false }
 }
 

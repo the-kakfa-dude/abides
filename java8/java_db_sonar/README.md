@@ -89,7 +89,7 @@ easy to screw up your task dependency graph, and get weird behavior when running
 
 Gradle will protect you from creating circular dependencies, but it won't read your mind.
 
-Thus, by specifying each of the required tasks that lead up to the final one, 
+Thus, by specifying each of the required tasks that lead up to the final one,
 in the correct order, you are giving yourself a chance to move forward _now_,
 despite having screwed up the task hierarchy.
 

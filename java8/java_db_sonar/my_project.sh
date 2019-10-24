@@ -71,7 +71,7 @@ function change_names() {
   local replace_with="$2"
 
   for file in $(egrep -R "${replace_me}" . | sort | awk -F':' '{print $1}' | egrep -v 'Binary|\.gradle/|/build/|/bin/' | uniq)
-   do 
+   do
     echo $file
     cat $file | sed "s|${replace_me}|${replace_with}|g" > ${file}.fixed
   done

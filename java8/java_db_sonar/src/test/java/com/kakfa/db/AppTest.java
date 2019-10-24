@@ -46,7 +46,7 @@ public class AppTest {
             String output = osOut.toString("UTF8").trim();
             String error = osErr.toString("UTF8").trim();
 
-            assertEquals("Standard Output should say hello world", App.HELLO_WORLD, output);
+            assertEquals("Standard Output should say hello world", App.HELLO_DATABASE, output);
             assertEquals("Standard Error should be empty", 0, error.length());
         }
         catch (Exception e) {
