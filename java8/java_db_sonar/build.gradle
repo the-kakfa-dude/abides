@@ -102,9 +102,7 @@ task testReport(type: JacocoReport) {
     executionData = fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
 	
     reports {
-        csv.enabled = false
-        html.enabled = false
-        xml.enabled = true
+        xml.enabled true
         xml.destination = file("${buildDir}/reports/report.xml")
     }
 }
