@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level; 
 import java.util.logging.Logger;
 
-public class FuncTestUtils {
+public class FuncUtils {
     
-    private FuncTestUtils() {
+    private FuncUtils() {
         // do nothing
     }
     
@@ -21,10 +21,10 @@ public class FuncTestUtils {
             // do nothing
         }
         
-        protected static final FuncTestUtils INSTANCE = new FuncTestUtils();
+        protected static final FuncUtils INSTANCE = new FuncUtils();
     }
     
-    public static FuncTestUtils getInstance() {
+    public static FuncUtils getInstance() {
 
         return SingletonHolder.INSTANCE;
     }

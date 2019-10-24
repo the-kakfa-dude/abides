@@ -32,7 +32,7 @@ NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gr
 ./gradlew clean
 ```
 
-### Build It And Run The Tests
+### Build It And Run The Unit and Functional Tests
 
 ```bash
 ./gradlew build
@@ -42,8 +42,9 @@ NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gr
 
 The standard jar will contain only the code from this project.
 
-An "uber" jar is a jar that has all of the project's other dependencies also zipped up in the jar files.
-For example, a regular jar might not include your Google Collections guava.jar, whereas an uberJar would.
+An "uber" jar is a jar that has all of the project's other dependencies
+also zipped up in the jar files. For example, a regular jar might not
+include your Google Collections guava.jar, whereas an uberJar would.
 
 ```bash
 ./gradlew jar uberJar
@@ -69,6 +70,9 @@ If you want to rebuild and rerun everything from scratch, do this:
 ```bash
 rm -rf .gradle ./build ./bin ; ./gradlew clean build test jar uberJar funcTest run sonar
 ```
+
+When working properly, this is equivlent to a `./gradlew clean build sonar`.
+
 
 ### But I Don't Need To Type That Much!
 
