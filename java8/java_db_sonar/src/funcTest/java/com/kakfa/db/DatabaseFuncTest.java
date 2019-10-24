@@ -5,12 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import static com.kakfa.db.Bike.DIAMONDBACK;
@@ -108,6 +111,18 @@ public class DatabaseFuncTest {
                      DBUtils.getInstance().selectBikesByBmx(test_conn, false).get(0));
     }
 
+    @Test
+    public void test6FailureCases() {
+        
+        Connection conn = null;
+        assertTrue("safe close null connection wasn't happy", DBUtils.getInstance().safeClose(conn));
+        
+        conn = DBUtils.getInstance().getConnection();
+        assertTrue("safe close actual connection wasn't happy", DBUtils.getInstance().safeClose(conn));
+        assertFalse("safe close already closed connection was happy", DBUtils.getInstance().safeClose(conn));
+    }
+
+    
     @Test
     public void test99DropTable() {
         boolean dropped = DBUtils.getInstance().dropBikesTable(test_conn);

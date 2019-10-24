@@ -1,6 +1,7 @@
 package com.kakfa.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -52,9 +53,17 @@ public class BikeTest {
 
         assertTrue("bike not equal itself", superBike.equals(superBike));
         assertTrue("db bike not equal itself", subDbBike.equals(subDbBike));
+        assertFalse("bike equal null", superBike.equals(null));
 
-        assertTrue("bike not equal db bike", superBike.equals(subDbBike));
+        assertTrue("db bike not equal itself", subDbBike.equals(subDbBike));
         assertTrue("db bike not equal bike", subDbBike.equals(superBike));
+        assertFalse("db bike equal null", subDbBike.equals(null));
+        
+        Bike otherSuperBike = new Bike("super", true);
+        DbBike otherSubDbBike = new DbBike(88, "super", true);
+
+        assertTrue("bike not equal other bike", superBike.equals(otherSuperBike));
+        assertTrue("db bike not equal other db bike", subDbBike.equals(otherSubDbBike));
     }
 
     @Test

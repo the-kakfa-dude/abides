@@ -19,6 +19,8 @@ public class App {
         return HELLO_DATABASE;
     }
 
+    // Uncomment this if you want sonar to generate a Code Smell for using System.out.println()
+    // @SuppressWarnings("squid:S106")
     public static void main(String[] args) {
 
         App instance = new App();

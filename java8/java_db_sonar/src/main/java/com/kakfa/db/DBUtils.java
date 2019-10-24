@@ -52,6 +52,13 @@ public class DBUtils {
     public static final String POSTGRES_URL = DRIVER_PROTOCOL + "://" + SERVER + ":" + PORT + "/" + DATABASE;
 
     public static final String USER = "java_db_sonar_user";
+    
+    // tell sonar it's okay i'm calling this "password".
+    //
+    // comment this out this suppression if you want to see a build
+    // fail the quality gate due to a security violation.
+    //
+    @SuppressWarnings("squid:S2068")
     public static final String PASSWORD = "java_db_sonar_pass";
 
     public static final String CREATE_BIKES_TABLE =
@@ -89,28 +96,9 @@ public class DBUtils {
     /**
      * This constructor is invoked lazily, the first time someone calls
      * getInstance(), and creates the "singleton" in "Singleton Holder".
-     *
-     * Because this the singleton instance is constructed on-demand,
-     * you don't have to worry about our attempt here to load the
-     * database driver failing during startup, when all the classes
-     * are being loaded by the JVM.
-     *
-     * Which is great, because if you crash the class loader, you get
-     * basically zero debugging information.
      */
     private DBUtils() {
-
-        try {
-            // this bizarre incantation been like this for decades.
-            //
-            // supposedly you don't need it in the newer versions of java,
-            // and the corresponding newer versions of the driver.
-            //
-            Class.forName(DRIVER_CLASS_NAME);
-        }
-        catch (ClassNotFoundException cnfe) {
-            LOGGER.log(Level.SEVERE, "Problem loading database driver: " + DRIVER_CLASS_NAME, cnfe);
-        }
+        // do nothing
     }
 
     /**
@@ -147,11 +135,16 @@ public class DBUtils {
      *
      * @return A {@link java.sqlConnection} instance, or null if something goes wrong.
      */
+    // tell sonar it's okay that we're using a hard-coded password.
+    //
+    // comment this out this suppression if you want to see a build
+    // fail the quality gate due to a security violation.
+    //
+    @SuppressWarnings("squid:S2068")
     public Connection getConnection() {
 
         try {
-            Connection result = DriverManager.getConnection(POSTGRES_URL, USER, PASSWORD);
-            return result;
+            return DriverManager.getConnection(POSTGRES_URL, USER, PASSWORD);
         }
         catch (SQLException sqle) {
             LOGGER.log(Level.SEVERE, "Problem establishing database connection, URL: " + POSTGRES_URL, sqle);
@@ -176,7 +169,9 @@ public class DBUtils {
      *
      * @param conn A {@link java.sql.Connection} object.
      *
-     * @returns false Iff it throws an exception when being closed. We return true when passed null.
+     * @returns false If the connection is already closed, if closing it throws,
+     *                or if checking if it's closed throws.
+     *                We return true when passed null.
      */
     public boolean safeClose(Connection conn) {
 
@@ -185,8 +180,13 @@ public class DBUtils {
         }
 
         try {
-            conn.close();
-            return true;
+            if (conn.isClosed()) {
+                return false;
+            }
+            else {
+                conn.close();
+                return true;
+            }
         }
         catch (SQLException sqle) {
             LOGGER.log(Level.SEVERE, "Problem closing jdbc connection, URL: " + POSTGRES_URL, sqle);
@@ -196,8 +196,9 @@ public class DBUtils {
 
     public boolean createBikesTable(Connection conn) {
 
-        try {
-            Statement statement = conn.createStatement();
+        // auto-closing a statement set is safe, even though auto-closing a connection is not.\
+        try(Statement statement = conn.createStatement()) {
+            
             statement.executeUpdate(CREATE_BIKES_TABLE);
             return true;
         }
@@ -209,8 +210,9 @@ public class DBUtils {
 
     public boolean dropBikesTable(Connection conn) {
 
-        try {
-            Statement statement = conn.createStatement();
+        // auto-closing a «statement set is safe, even though auto-closing a connection is not.\
+        try(Statement statement = conn.createStatement()) {
+            
             statement.executeUpdate(DROP_BIKES_TABLE);
             return true;
         }
@@ -222,9 +224,8 @@ public class DBUtils {
 
     public boolean insertBike(Connection conn, Bike bike) {
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(INSERT_BIKE);
-
+        // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.\
+        try(PreparedStatement ps = conn.prepareStatement(INSERT_BIKE)) {
             ps.setString(1, bike.getName());
             ps.setBoolean(2, bike.isBmx());
             ps.executeUpdate();
@@ -241,23 +242,25 @@ public class DBUtils {
 
         List<DbBike> results = new ArrayList<>();
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(SELECT_BIKES_BY_NAME);
-
+        // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.
+        try(PreparedStatement ps = conn.prepareStatement(SELECT_BIKES_BY_NAME)) {
+            
             ps.setString(1, bikeName);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int     id   = rs.getInt("id");
-                String  name = rs.getString("name");
-                boolean bmx  = rs.getBoolean("bmx");
+            // auto-closing a result set is safe, even though auto-closing a connection is not.
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int     id   = rs.getInt("id");
+                    String  name = rs.getString("name");
+                    boolean bmx  = rs.getBoolean("bmx");
 
-                DbBike bike = new DbBike(id, name, bmx);
-                results.add(bike);
+                    DbBike bike = new DbBike(id, name, bmx);
+                    results.add(bike);
+                }                
             }
         }
         catch (SQLException sqle) {
-            LOGGER.log(Level.SEVERE, "Exception when selecting bikes for name: " + bikeName , sqle);
+            LOGGER.log(Level.SEVERE, "Exception when selecting bikes by name: " + bikeName , sqle);
             return Collections.emptyList();
         }
         return results;
@@ -267,23 +270,25 @@ public class DBUtils {
 
         List<DbBike> results = new ArrayList<>();
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(SELECT_BIKES_BY_BMX);
-
+        // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.
+        try(PreparedStatement ps = conn.prepareStatement(SELECT_BIKES_BY_BMX);){
+            
             ps.setBoolean(1, isBmx);
 
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int     id   = rs.getInt("id");
-                String  name = rs.getString("name");
-                boolean bmx  = rs.getBoolean("bmx");
+            // auto-closing a result set is safe, even though auto-closing a connection is not.
+            try(ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int     id   = rs.getInt("id");
+                    String  name = rs.getString("name");
+                    boolean bmx  = rs.getBoolean("bmx");
 
-                DbBike bike = new DbBike(id, name, bmx);
-                results.add(bike);
+                    DbBike bike = new DbBike(id, name, bmx);
+                    results.add(bike);
+                }
             }
         }
         catch (SQLException sqle) {
-            LOGGER.log(Level.SEVERE, "Exception when selecting bikes for name: " + isBmx , sqle);
+            LOGGER.log(Level.SEVERE, "Exception when selecting bikes by bmx: " + isBmx , sqle);
             return Collections.emptyList();
         }
         return results;
@@ -291,18 +296,16 @@ public class DBUtils {
 
     public int updateBikeBmxByName(Connection conn, String name, boolean isBmx) {
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(UPDATE_BIKE_BMX_BY_NAME);
-
+        // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.
+        try(PreparedStatement ps = conn.prepareStatement(UPDATE_BIKE_BMX_BY_NAME)) {
+            
             ps.setBoolean(1, isBmx);
             ps.setString(2, name);
 
-            int rowsUpdated = ps.executeUpdate();
-            return rowsUpdated;
-
+            return ps.executeUpdate();
         }
         catch (SQLException sqle) {
-            LOGGER.log(Level.SEVERE, "Exception when selecting bikes for name: " + isBmx , sqle);
+            LOGGER.log(Level.SEVERE, "Exception when updating bike bmx by bike name: " + isBmx , sqle);
             return -1;
         }
     }
