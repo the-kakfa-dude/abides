@@ -71,6 +71,8 @@ include your Google Collections guava.jar, whereas an uberJar would.
 
 ### Run It
 
+A run will do a build.
+
 ```bash
 ./gradlew clean run
 ```
