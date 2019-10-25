@@ -149,7 +149,7 @@ A run will do a build.
 
 ### Pushing Latest Build To Sonar
 
-A `sonarqube` will *not* do a build or test or report or any other task.
+A `./gradlew sonarqube` will *not* do a build or test or report or any other task.
 *All* it will do is push the `testReport` data to the sonar server.
 
 This is really only useful if you are running niche task by hand.

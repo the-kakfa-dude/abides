@@ -77,6 +77,13 @@ include your Google Collections guava.jar, whereas an uberJar would.
 
 ### Pushing Latest Build To Sonar
 
+A `./gradlew sonarqube` will *not* do a build or test or report or any other task.
+*All* it will do is push the `testReport` data to the sonar server.
+
+This is really only useful if you are running niche task by hand.
+
+Note: You can type `sonar` instead of `sonarqube` if you want.
+
 ```bash
 ./gradlew sonar
 ```
