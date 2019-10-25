@@ -85,7 +85,6 @@ function change_names() {
   done
 }
 
-
 if [[ "$CURRENT_PROJECT" != "$NEW_PROJECT" ]]
  then
 
