@@ -7,6 +7,12 @@ import static org.junit.Assert.assertEquals;
 import java.io.File;
 import java.io.PrintStream;
 
+/**
+ * Simple functional test of our application.
+ * 
+ * @author damon.berry
+ * @since  September 2019
+ */
 public class AppFuncTest {
 
     protected final static String USER_DIR_PROPERTY = "user.dir";
