@@ -2,11 +2,22 @@ package com.kakfa.db;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+/**
+ * Simple unit tests of our application.
+ *  
+ * @author damon.berry
+ * @since  September 2019
+ */
 public class AppTest {
 
     @Test
