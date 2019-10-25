@@ -46,7 +46,7 @@ or properly modified or extended (like hopefully our other projects)
 you don't really need to specify each of the tasks above, as some
 will run others.
 
-For instance, a build with do a test, a run will do build but not a jar,
+For instance, a build will do a test, a run will do build but not a jar,
 and so on. The result is you end up getting some taks for free.
 
 However, as soon as you start adding new tasks, or otherwise changing the

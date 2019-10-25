@@ -11,8 +11,8 @@
 # so if running this script crashes,
 # you will want to checkout a fresh copy.
 #
-CURRENT_PROJECT="java_sonar"
-CURRENT_PACKAGE="com.kakfa"
+CURRENT_PROJECT="java_db_sonar"
+CURRENT_PACKAGE="com.kakfa.db"
 
 # parse command line args
 #
@@ -71,7 +71,7 @@ function change_names() {
   local replace_with="$2"
 
   for file in $(egrep -R "${replace_me}" . | sort | awk -F':' '{print $1}' | egrep -v 'Binary|\.gradle/|/build/|/bin/' | uniq)
-   do 
+   do
     echo $file
     cat $file | sed "s|${replace_me}|${replace_with}|g" > ${file}.fixed
   done
@@ -85,7 +85,6 @@ function change_names() {
   done
 }
 
-
 if [[ "$CURRENT_PROJECT" != "$NEW_PROJECT" ]]
  then
 
@@ -96,6 +95,7 @@ fi
 
 if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
  then
+
   # changing the package names requires escaping the dot characters.
   #
   CP_REGEX=$(to_package_regex "$CURRENT_PACKAGE")
@@ -113,11 +113,13 @@ if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
 
   mkdir -p ./src/main/java/${NEW_DIR}
   mkdir -p ./src/test/java/${NEW_DIR}
+  mkdir -p ./src/funcTest/java/${NEW_DIR}
 
-  # be naive and assume all we need to move is the contents
-  # of the final package.
+  # be naive and assume all we need to move is the contents of the final package.
+  #
   rsync -avPr ./src/main/java/${CURRENT_DIR}/* ./src/main/java/${NEW_DIR}/
   rsync -avPr ./src/test/java/${CURRENT_DIR}/* ./src/test/java/${NEW_DIR}/
+  rsync -avPr ./src/funcTest/java/${CURRENT_DIR}/* ./src/funcTest/java/${NEW_DIR}/
 
   # if the target dir is different than the source dir,
   # and not a sub-dir, then we should remove the source dir.
