@@ -17,7 +17,7 @@ You can `ctrl-c` out of ^^^ whenever you like, it's just tailing the database lo
 Also, its safe to run it more than once, since it's just starting a docker-compose, which is idempotent.
 When you see that log say something like this, then the database is ready:
 ```bash
-db_1  | 1995-08-89 23:51:12.704 UTC [1] LOG:  database system is ready to accept connections
+test_db_1  | 1995-08-89 23:51:12.704 UTC [1] LOG:  database system is ready to accept connections
 ```
 
 ### Setting Up
@@ -72,7 +72,7 @@ If you can't do that, the database is probably down or badly damaged.
 
 ### Version
 Right now, we've pinned the postgres to version 11 in the `docker/postgres/docker-compose.yaml`
-because brew hasn't come out with v12 yet, even though that is the default posgres container now. 
+because brew hasn't come out with v12 yet, even though that is the default postgres container now. 
 
 ## Quality Analysis
 You'll also need to start a docker-compose for the SonarQube server.
