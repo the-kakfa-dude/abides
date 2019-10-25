@@ -93,17 +93,14 @@ test {
 
 task testReport(type: JacocoReport) {
 
-    def mainSrc = "${project.projectDir}/src/main/java"
-    def classSrc = "$buildDir/classes/java/main/com/kakfa/db/"
+    sourceDirectories = files(["${project.projectDir}/src/main/java"])
+    classDirectories = files(["$buildDir/classes/java/main/"])
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([classSrc])
-
-    executionData = fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
+    executionData fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
 	
     reports {
         xml.enabled true
-        xml.destination = file("${buildDir}/reports/report.xml")
+        xml.destination file("${buildDir}/reports/report.xml")
     }
 }
 
