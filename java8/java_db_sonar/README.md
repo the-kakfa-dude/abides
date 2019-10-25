@@ -1,4 +1,4 @@
-# Java 8 Example With Gradle Build System, Quality Analysis, and Database
+## Java 8 Example With Gradle Build System, Quality Analysis, and Database
 
 This is a sample project that uses the Gradle build system,
 and uses a SonarQube server for Quality Analysis.
