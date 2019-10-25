@@ -28,51 +28,64 @@ NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gr
 
 ### Clean It
 
+A gradle clean removes the build artifacts.
+I recommend you include the clean task when
+you run the other tasks.
+
 ```bash
 ./gradlew clean
 ```
 
-### Build It And Run The Unit and Functional Tests
+### Build It, Jar it, Test It, Write Report
+
+This will compile the code, jar it up (including the uberJar),
+run both the unit and functional tests while gathering code coverage data,
+and then write local html reports on test execution and coverage.
 
 ```bash
-./gradlew build
+./gradlew clean build
 ```
 
-### Zip It Into Regular Jar and Uber Jar
-
-The standard jar will contain only the code from this project.
+If this breaks and you think it's task dependency,
+a `clean build` shold be equivalent to a:
+```bash
+./gradlew clean classes jar uberJar test funcTest testReport
+```
 
 An "uber" jar is a jar that has all of the project's other dependencies
 also zipped up in the jar files. For example, a regular jar might not
 include your Google Collections guava.jar, whereas an uberJar would.
 
-```bash
-./gradlew jar uberJar
-```
-
 ### Run It
 
+A run will do a build.
+
 ```bash
-./gradlew run
+./gradlew clean run
 ```
 
 ### Pushing Latest Build To Sonar
 
+A `sonarqube` will *not* do a build or test or report or any other task.
+*All* it will do is push the `testReport` data to the sonar server.
+
+This is really only useful if you are running niche task by hand.
+
+Note: You can type `sonar` instead of `sonarqube` if you want.
+
 ```bash
 ./gradlew sonar
 ```
-
 
 ## Development Loop
 
 If you want to rebuild and rerun everything from scratch, do this:
 
 ```bash
-rm -rf .gradle ./build ./bin ; ./gradlew clean build test jar uberJar funcTest run sonar
+rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test funcTest testReport sonarqube run
 ```
 
 When working properly, this is equivlent to a `./gradlew clean build sonar`.
-
 
 ### But I Don't Need To Type That Much!
 
@@ -115,9 +128,9 @@ rm -rf .gradle
 ```
 
 You may also wish to nuke your IDE artifacts, by running something like:
-```
+```bash
 rm -rf .classpath .idea .project .settings
-
+```
 
 ## Rename and Repackage This Thing
 
