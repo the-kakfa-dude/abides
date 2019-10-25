@@ -194,6 +194,13 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Creates the bike table in the test database, using the presented connection.
+     * 
+     * @param conn The database connection to use.
+     * 
+     * @return True if it worked, false if the attempt threw an exception.
+     */
     public boolean createBikesTable(Connection conn) {
 
         // auto-closing a statement set is safe, even though auto-closing a connection is not.\
@@ -208,6 +215,13 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Removes the bike table in the test database, using the presented connection.
+     * 
+     * @param conn The database connection to use.
+     * 
+     * @return True if it worked, false if the attempt threw an exception.
+     */
     public boolean dropBikesTable(Connection conn) {
 
         // auto-closing a «statement set is safe, even though auto-closing a connection is not.\
@@ -222,6 +236,15 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Inserts the presented bike into the bike table in the test database,
+     * using the presented connection.
+     * 
+     * @param conn The database connection to use.
+     * @param bike The bike object for which you want its data inserted into the db.
+     * 
+     * @return True if it worked, false if the attempt threw an exception.
+     */
     public boolean insertBike(Connection conn, Bike bike) {
 
         // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.\
@@ -238,6 +261,15 @@ public class DBUtils {
         }
     }
 
+    /**
+     * Queries the database for rows in the bike table that have the presented name,
+     * using the presented connection.
+     * 
+     * @param conn The database connection to use.
+     * @param bikeName The name of the bike/bikes you want selected.
+     * 
+     * @return A list of DbBike objects representing the query results.
+     */
     public List<DbBike> selectBikesByName(Connection conn, String bikeName) {
 
         List<DbBike> results = new ArrayList<>();
@@ -266,6 +298,15 @@ public class DBUtils {
         return results;
     }
 
+    /**
+     * Queries the database for rows in the bike table have the same bmx value as the
+     * presented isBmx value, using the presented connection.
+     * 
+     * @param conn The database connection to use.
+     * @param isBmx Pass true of you want bmx bikes returned, else pass False.
+     * 
+     * @return A list of DbBike objects representing the query results.
+     */
     public List<DbBike> selectBikesByBmx(Connection conn, boolean isBmx) {
 
         List<DbBike> results = new ArrayList<>();
@@ -294,6 +335,17 @@ public class DBUtils {
         return results;
     }
 
+    /**
+     * Finds the bikes with the presented name, and updates their bmx value to the 
+     * presented isBmx value.
+     * 
+     * @param conn The database connection to use.
+     * 
+     * @param isBmx Pass true of you want the found bikes to become BMX, or False
+     *              if you want them to become not-BMX.
+     * 
+     * @return The number of rows updated by the database update statement.
+     */
     public int updateBikeBmxByName(Connection conn, String name, boolean isBmx) {
 
         // auto-closing a prepared statement set is safe, even though auto-closing a connection is not.

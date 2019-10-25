@@ -3,6 +3,12 @@ package com.kakfa;
 import java.util.logging.Level; 
 import java.util.logging.Logger; 
 
+/**
+ * Simple hello world application.
+ * 
+ * @author damon.berry
+ * @since  September 2019
+ */
 // if you wan to keep the system out, and tell sonar this one is okay, uncomment this:
 //@SuppressWarnings("squid:S106")
 public class App {
