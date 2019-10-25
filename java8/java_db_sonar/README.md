@@ -46,8 +46,23 @@ and then write local html reports on test execution and coverage.
 ./gradlew clean build
 ```
 
-If this breaks and you think it's task dependency,
-a `clean build` shold be equivalent to a:
+Test reports about tests passing/failing (and why) are available at:
+
+```bash
+./build/reports/tests/test/index.html
+./build/reports/tests/funcTest/index.html
+```
+
+A test report showing test coverage (or the lack thereof)
+for both unit and functional tests is available at:
+
+```bash
+./build/reports/jacoco/testReport/html/index.html
+```
+
+If these break and you think it's task dependency,
+a `clean build` should be equivalent to a:
+
 ```bash
 ./gradlew clean classes jar uberJar test funcTest testReport
 ```
@@ -77,6 +92,7 @@ Note: You can type `sonar` instead of `sonarqube` if you want.
 ./gradlew sonar
 ```
 
+
 ## Development Loop
 
 If you want to rebuild and rerun everything from scratch, do this:
@@ -93,8 +109,8 @@ When your gradle tasks are only the defaults, or properly modified or extended
 (like in this project) you don't really need to specify each of the tasks above,
 as some will run others.
 
-For instance, a build will do a test, a run will do build but not a jar,
-and so on. The result is you end up getting some tasks for free.
+For instance, in default gradle a build will do a test, a run will do build
+but not a jar, and so on. The result is you end up getting some tasks for free.
 
 However, as soon as you start adding new tasks (like a sonar task, or a task for
 functional tests), or otherwise start changing the `build.gradle` file, it's pretty
@@ -146,12 +162,12 @@ For the `my_project.sh` in _this_ project, you pass it a new project name and
 a new package name. The current project name is `java_db_sonar` and the current
 java package is `com.kakfa.db`
 
-For example, if you wanted to call this project `bunnies` and you were working for
-the platform team at a company called `example.com`, you would invoke the script
+For example, if you wanted to call this project `rabbits` and you were working for
+the devops team at a company called `example.com`, you would invoke the script
 like this:
 
 ```bash
-./my_project.sh bunnies com.example.platform
+./my_project.sh rabbits com.example.devops
 ```
 
 That will change all the names in the source files in this project,

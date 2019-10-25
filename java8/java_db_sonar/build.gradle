@@ -113,7 +113,7 @@ targetCompatibility = '1.8'
 tasks.funcTest.dependsOn jar
 tasks.funcTest.dependsOn uberJar
 
-tasks.check.dependsOn testReport
 tasks.check.dependsOn funcTest
+tasks.check.dependsOn testReport
 
 tasks.sonarqube.dependsOn = []

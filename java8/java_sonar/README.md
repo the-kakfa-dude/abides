@@ -28,31 +28,51 @@ NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gr
 
 ### Clean It
 
+A gradle clean removes the build artifacts.
+I recommend you include the clean task when
+you run the other tasks.
+
 ```bash
 ./gradlew clean
 ```
 
-### Build It And Run The Tests
+### Build It, Jar it, Test It, Write Report
+
+This will compile the code, jar it up (including the uberJar),
+run both the unit and functional tests while gathering code coverage data,
+and then write local html reports on test execution and coverage.
 
 ```bash
-./gradlew build
+./gradlew clean build
 ```
 
-### Zip It Into Regular Jar and Uber Jar
-
-The standard jar will contain only the code from this project.
-
-An "uber" jar is a jar that has all of the project's other dependencies also zipped up in the jar files.
-For example, a regular jar might not include your Google Collections guava.jar, whereas an uberJar would.
+A test report about tests passing/failing (and why) is available at:
 
 ```bash
-./gradlew jar uberJar
+./build/reports/tests/test/index.html
 ```
+
+A test report showing test coverage (or the lack thereof) is available at:
+
+```bash
+./build/reports/jacoco/testReport/html/index.html
+```
+
+If these break and you think it's task dependency,
+a `clean build` should be equivalent to a:
+
+```bash
+./gradlew clean classes jar uberJar test testReport
+```
+
+An "uber" jar is a jar that has all of the project's other dependencies
+also zipped up in the jar files. For example, a regular jar might not
+include your Google Collections guava.jar, whereas an uberJar would.
 
 ### Run It
 
 ```bash
-./gradlew run
+./gradlew clean run
 ```
 
 ### Pushing Latest Build To Sonar
@@ -67,8 +87,10 @@ For example, a regular jar might not include your Google Collections guava.jar, 
 If you want to rebuild and rerun everything from scratch, do this:
 
 ```bash
-rm -rf .gradle ./build ./bin ; ./gradlew clean build test jar uberJar run sonar
+rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test testReport sonarqube run
 ```
+
+When working properly, this is equivlent to a `./gradlew clean build sonar`.
 
 ### But I Don't Need To Type That Much!
 
@@ -76,8 +98,8 @@ When your gradle tasks are only the defaults, or properly modified or extended
 (like in this project) you don't really need to specify each of the tasks above,
 as some will run others.
 
-For instance, a build will do a test, a run will do build but not a jar,
-and so on. The result is you end up getting some tasks for free.
+For instance, in default gradle a build will do a test, a run will do build
+but not a jar, and so on. The result is you end up getting some tasks for free.
 
 However, as soon as you start adding new tasks (like a sonar task, or an uberJar),
 or otherwise start changing the `build.gradle` file, it's pretty easy to screw up
@@ -111,9 +133,9 @@ rm -rf .gradle
 ```
 
 You may also wish to nuke your IDE artifacts, by running something like:
-```
+```bash
 rm -rf .classpath .idea .project .settings
-
+```
 
 ## Rename and Repackage This Thing
 
