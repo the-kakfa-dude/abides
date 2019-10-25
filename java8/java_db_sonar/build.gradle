@@ -57,7 +57,6 @@ dependencies {
     funcTestImplementation 'junit:junit:4.12'
 }
 
-
 task sourcesJar(type: Jar) {
 
     archiveClassifier = 'sources'
@@ -87,10 +86,6 @@ task funcTest(type: Test, group: 'Verification', description: 'Runs functional t
     outputs.upToDateWhen { false }
 }
 
-test {
-	//Empty or something here, it does not matter
-}
-
 task testReport(type: JacocoReport) {
 
     sourceDirectories = files(["${project.projectDir}/src/main/java"])
@@ -109,7 +104,6 @@ sonarqube {
         property 'sonar.projectName', 'java_db_sonar'
         property 'sonar.tests', 'src/test, src/funcTest'
         property 'sonar.coverage.jacoco.xmlReportPaths', "${buildDir}/reports/report.xml"
-        
     }
 }
 
