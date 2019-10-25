@@ -67,8 +67,8 @@ dockerCompose {
 
 task testReport(type: JacocoReport) {
 
-    sourceDirectories = files(["${project.projectDir}/src/main/java"])
-    classDirectories = files(["$buildDir/classes/java/main/"])
+    sourceDirectories.from = files(["${project.projectDir}/src/main/java"])
+    classDirectories.from = files(["$buildDir/classes/java/main/"])
 
     executionData fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
 

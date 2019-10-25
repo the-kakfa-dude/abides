@@ -14,7 +14,7 @@ plugins {
 }
 
 dockerCompose {
-    useComposeFiles = ['docker-compose.yaml']
+    useComposeFiles = ['docker/sonar/docker-compose.yaml']
     containerLogToDir = project.file('sonar')
     removeVolumes = false
 }
@@ -88,8 +88,8 @@ task funcTest(type: Test, group: 'Verification', description: 'Runs functional t
 
 task testReport(type: JacocoReport) {
 
-    sourceDirectories = files(["${project.projectDir}/src/main/java"])
-    classDirectories = files(["$buildDir/classes/java/main/"])
+    sourceDirectories.from = files(["${project.projectDir}/src/main/java"])
+    classDirectories.from = files(["$buildDir/classes/java/main/"])
 
     executionData fileTree(dir: "$buildDir", includes: ["jacoco/funcTest.exec", "jacoco/test.exec"])
 	
