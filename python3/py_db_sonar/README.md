@@ -72,7 +72,7 @@ If you can't do that, the database is probably down or badly damaged.
 
 ### Version
 Right now, we've pinned the postgres to version 11 in the `docker/postgres/docker-compose.yaml`
-because brew hasn't come out with v12 yet, even though that is the default posgres container now. 
+because brew hasn't come out with v12 yet, even though that is the default postgres container now. 
 
 ## Quality Analysis
 You'll also need to start a docker-compose for the SonarQube server.
