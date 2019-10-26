@@ -4,6 +4,17 @@ This is a **bare-ish bones** sample python 3 project that comes with a sonar ser
 
 For truly bare-bones, looke at the `py_example` sibling project.
 
+
+### Make This My Own
+If you want to rename this project, and all the references to the project name,
+you can run this filling in the name you want for "new_name":
+```bash
+  ./my_project.sh new_name
+```
+
+You should *do this first*, or on a fresh checkout of this project.
+
+
 ### TLDR
 
 Do this in one window:

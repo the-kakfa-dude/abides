@@ -28,7 +28,10 @@ for file in $(find . -type f | grep fixed$)
   mv $NEW_NAME $OLD_NAME
 done
 
-chmod +x *.sh
+# find all the scripts that lost their executable bit,
+# and set it again.
+#
+find . -type f | grep sh$ | xargs chmod +x
 
 mv py_db_sonar $MY_PROJECT
 

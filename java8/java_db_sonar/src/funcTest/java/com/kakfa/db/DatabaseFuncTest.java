@@ -7,19 +7,26 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import static com.kakfa.db.Bike.DIAMONDBACK;
 import static com.kakfa.db.Bike.SCHWINN;
 import static com.kakfa.db.Bike.TREK;
 
+/**
+ * We use fixed method ordering to ensure that we create the table first,
+ * manipulate the table next, and drop the table at the end.
+ * 
+ * The method ordering is alphabetical.
+ * 
+ * @author damon.berry
+ * @since  October 2019
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DatabaseFuncTest {
 

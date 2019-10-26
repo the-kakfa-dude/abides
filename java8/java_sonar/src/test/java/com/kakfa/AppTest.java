@@ -1,11 +1,12 @@
 package com.kakfa;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
 
 import org.junit.After;
@@ -13,7 +14,12 @@ import org.junit.Ignore;
 
 import com.kakfa.App;
 
-
+/**
+ * Simple test of our Hello World Application.
+ * 
+ * @author damon.berry
+ * @since  September 2019
+ */
 public class AppTest {
     
     protected final static String USER_DIR_PROPERTY = "user.dir";

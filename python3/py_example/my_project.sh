@@ -14,10 +14,10 @@ if [[ "x" == "x${MY_PROJECT}" ]]
   exit 1
 fi
 
-for file in $(grep -R 'py_sonar' . | sort | awk -F':' '{print $1}' | uniq);
+for file in $(grep -R 'py_example' . | sort | awk -F':' '{print $1}' | uniq);
  do 
   echo $file
-  cat $file | sed "s|py_sonar|${MY_PROJECT}|g" > ${file}.fixed
+  cat $file | sed "s|py_example|${MY_PROJECT}|g" > ${file}.fixed
 done
 
 for file in $(find . -type f | grep fixed$)
@@ -33,5 +33,5 @@ done
 #
 find . -type f | grep sh$ | xargs chmod +x
 
-mv py_sonar $MY_PROJECT
+mv py_example $MY_PROJECT
 
