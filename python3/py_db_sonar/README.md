@@ -6,6 +6,17 @@ If you don't need functional tests or a database, try the `py_sonar` project ins
 
 The bare-bones project is called `py_example`.
 
+
+### Make This My Own
+If you want to rename this project, and all the references to the project name,
+you can run this filling in the name you want for "new_name":
+```bash
+  ./my_project.sh new_name
+```
+
+You should *do this first*, or on a fresh checkout of this project.
+
+
 ## Database
 ### Starting
 Start the Postgres database now, since the first time you do this, it can be slow.

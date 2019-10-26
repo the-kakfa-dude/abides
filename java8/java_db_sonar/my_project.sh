@@ -134,19 +134,19 @@ if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
      then
       # it's a subdir. remove the files from the parent, but not the directories
       #
-      rm -f ./src/main/java/${CURRENT_DIR}/* ./src/test/java/${CURRENT_DIR}/*
+      rm -f ./src/main/java/${CURRENT_DIR}/* ./src/test/java/${CURRENT_DIR}/* ./src/funcTest/java/${CURRENT_DIR}/*
      else
       # it's just a regular old dir. remove it.
       #
-      rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR}
+      rm -rf ./src/main/java/${CURRENT_DIR} ./src/test/java/${CURRENT_DIR} ./src/funcTest/java/${CURRENT_DIR}
      fi
    fi
 fi
 
-# since we couldn't sed the files in place (thanks apple),
-# we have to reset the executable bit on our shell scripts
+# find all the scripts that lost their executable bit,
+# and set it again.
 #
-find . -type f -name *.sh | xargs chmod +x
+find . -type f | grep sh$ | xargs chmod +x
 
 # the local .gradle folder will contain aritfacts with the old name.
 # clean house.

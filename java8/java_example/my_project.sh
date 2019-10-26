@@ -140,10 +140,10 @@ if [[ "$CURRENT_PACKAGE" != "$NEW_PACKAGE" ]]
    fi
 fi
 
-# since we couldn't sed the files in place (thanks apple),
-# we have to reset the executable bit on our shell scripts
+# find all the scripts that lost their executable bit,
+# and set it again.
 #
-find . -type f -name *.sh | xargs chmod +x
+find . -type f | grep sh$ | xargs chmod +x
 
 # the local .gradle folder will contain aritfacts with the old name.
 # clean house.
