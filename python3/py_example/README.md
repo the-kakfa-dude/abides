@@ -4,6 +4,15 @@ This is a **bare bones** sample python 3 project.
 
 Keep It Simple/Stupid.
 
+### Make This My Own
+If you want to rename this project, and all the references to the project name,
+you can run this filling in the name you want for "new_name":
+```bash
+  ./my_project.sh new_name
+```
+
+You should *do this first*, or on a fresh checkout of this project.
+
 ### Build and Test
 To build it, lint it, and test it, do this:
 ```bash

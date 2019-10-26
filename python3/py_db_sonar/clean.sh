@@ -22,6 +22,8 @@ docker rm $(docker ps -a | grep 'py_db_sonar:latest' | awk '{print $NF}')
 
 docker rmi $(docker images | tr -s ' ' | grep 'py_db_sonar latest' | cut -d' ' -f3)
 
+docker rmi $(docker images | tr -s ' ' | grep 'py_db_sonar_scanner latest' | cut -d' ' -f3)
+
 docker image prune --force
 
 docker volume rm $(docker volume ls | tr -s ' ' | grep '^local postgres_py_db_sonar' | cut -d' ' -f2)
