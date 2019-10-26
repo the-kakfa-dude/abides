@@ -169,7 +169,7 @@ If you want to rebuild and rerun everything from scratch, do this:
 rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test funcTest testReport sonarqube run
 ```
 
-When working properly, this is equivalent to a `./gradlew clean build sonar`.
+When working properly, this is equivalent to a `./gradlew clean build sonar run`.
 
 ### But I Don't Need To Type That Much!
 
