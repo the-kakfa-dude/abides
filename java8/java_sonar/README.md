@@ -39,7 +39,7 @@ you run the other tasks.
 ### Build It, Jar it, Test It, Write Report
 
 This will compile the code, jar it up (including the uberJar),
-run both the unit and functional tests while gathering code coverage data,
+run both the unit tests while gathering code coverage data,
 and then write local html reports on test execution and coverage.
 
 ```bash
@@ -99,7 +99,7 @@ If you want to rebuild and rerun everything from scratch, do this:
 rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test testReport sonarqube run
 ```
 
-When working properly, this is equivlent to a `./gradlew clean build sonar`.
+When working properly, this is equivlent to a `./gradlew clean build sonar run`.
 
 ### But I Don't Need To Type That Much!
 
