@@ -14,5 +14,7 @@ docker rm $(docker ps -a | grep 'py_sonar:latest' | awk '{print $NF}')
 
 docker rmi $(docker images | tr -s ' ' | grep 'py_sonar latest' | cut -d' ' -f3)
 
+docker rmi $(docker images | tr -s ' ' | grep 'py_sonar_scanner latest' | cut -d' ' -f3)
+
 docker image prune --force
 

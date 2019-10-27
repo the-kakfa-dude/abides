@@ -7,7 +7,7 @@ It also comes with a Postgres Database and functional tests that use that db.
 
 This project was written for Java 8.
 
-If you don't need a database and/or functional tests, see our sibling project `py_sonar`.
+If you don't need a database and/or functional tests, see our sibling project `java_sonar`.
 If you also don't need quality analysis, the barest-bones project is `java_example`.
 
 
@@ -169,7 +169,7 @@ If you want to rebuild and rerun everything from scratch, do this:
 rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test funcTest testReport sonarqube run
 ```
 
-When working properly, this is equivalent to a `./gradlew clean build sonar`.
+When working properly, this is equivalent to a `./gradlew clean build sonar run`.
 
 ### But I Don't Need To Type That Much!
 

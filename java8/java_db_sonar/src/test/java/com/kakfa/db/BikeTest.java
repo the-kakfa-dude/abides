@@ -6,11 +6,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+/**
+ * Pojo tests for a bike.
+ * 
+ * @author damon.berry
+ * @since  October 2019
+ */
 public class BikeTest {
-
-    public BikeTest() {
-        // TODO Auto-generated constructor stub
-    }
 
     @Test
     public void testGetters() {
