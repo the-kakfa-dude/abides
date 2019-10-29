@@ -16,8 +16,8 @@ if [[ "x" == "x${MY_PROJECT}" ]]
   exit 1
 fi
 
-for file in $(grep -R "$CURRENT_PROJECT" . | sort | awk -F':' '{print $1}' | uniq);
- do 
+for file in $(grep -R "$CURRENT_PROJECT" . | sort | awk -F':' '{print $1}' | egrep -v '/build/|/node_modules/|/coverage/' | uniq);
+ do
   echo $file
   cat $file | sed "s|${CURRENT_PROJECT}|${MY_PROJECT}|g" > ${file}.fixed
 done
