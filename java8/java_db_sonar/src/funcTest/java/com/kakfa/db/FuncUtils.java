@@ -45,6 +45,23 @@ public class FuncUtils {
 
     protected static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    /**
+     * Executes the presented command and command line args, found in the presented directory,
+     * waiting for the results of the program execution for the specified number of seconds.
+     * 
+     * Captures the output from standard out and standard error, and returns that output as a
+     * string array, where the first element is the output from stdout and the second is the
+     * output from stderr.
+     * 
+     * @param commands The first element is the program you want executed the following elements
+     *                 are the command line arguments to that program;
+     * @param directory The working directory you wand the comamnd run from.
+     * @param timeoutSeconds How long to wait for the program to complete (in seconds).
+     * 
+     * @return A two element array: first string is standard out contents, second string is
+     *         standard error. Contents may be the empty string if now output was created 
+     *         into the corresponding stream. 
+     */
     public String[] executeCommands(String[] commands, File directory, long timeoutSeconds) {
 
         ProcessBuilder pb = new ProcessBuilder();
@@ -82,6 +99,15 @@ public class FuncUtils {
         return results;
     }
 
+    /**
+     * Takes and input stream, reads it, and stored the output in a String.
+     * 
+     * @param inputStream The stream you want to read.
+     * 
+     * @return A string representation of the contents of the presented stream.
+     *         Each line in the stream is represented as a separate line in the
+     *         returned string.
+     */
     protected String streamToString(InputStream inputStream) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
