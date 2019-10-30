@@ -1,8 +1,9 @@
-## Example Project For Node 12 and TypeScript 3
+## Node12/TypeScript3 Example with Quality Analysis via SonarQube (aka sonar)
 
-This is a **bare bones** sample Node 12 project written in Typescript 3.
 
-Keep It Simple/Stupid.
+This is a **bare-ish bones** sample Node project written in Typescript that scomes with a sonar server.
+
+For truly bare-bones, look at the `ts_example` sibling project.
 
 
 ### Make This My Own
@@ -19,12 +20,52 @@ You should *do this first*, or on a fresh checkout of this project.
 
 ### TL;DR
 
-If you want to run the whole command pipeline (including an auto-fix of your files
-to ensure you respect the GTS coding convention), run this:
+Do this in one window:
 
 ```bash
-  ./clean.sh ; npm install && ./fix.sh && ./build.sh && ./run.sh && ./docker-build.sh && ./docker-run.sh 
+  ./start-sonar-server.sh; tail -F sonar.log.txt
 ```
+
+When it you see the log saying something like:
+
+```bash
+  sonarqube_1  | 1977.06.03 07:52:00 INFO  app[][o.s.a.SchedulerImpl] SonarQube is up
+```
+
+then you can ctrl-c it, or open a new window, and run these:
+
+```bash
+  # regular build and execute
+  #
+  ./clean.sh && ./build.sh && ./run.sh
+```
+
+```bash
+  # docker build and execute
+  #
+  ./clean.sh && ./docker-build.sh && ./docker-run.sh
+```
+
+```bash
+  # regular build that you then analyze with sonar
+  #
+  ./clean.sh && ./build.sh && ./sonar-run.sh
+```
+
+When that finishes, go here in a browser and go look at
+your quality analysis reports:
+
+  http://localhost:9000/dashboard?id=ts_sonar%3Aproject
+
+
+If you want to run the whole command pipeline (including an auto-fix of your files
+to ensure you respect the GTS coding convention, and a quality analysis push to the
+sonar server), run this:
+
+```bash
+  ./clean.sh ; npm install && ./fix.sh && ./build.sh && ./run.sh && ./docker-build.sh && ./docker-run.sh && ./sonar-run.sh
+```
+
 
 ### Build and Test
 
@@ -61,11 +102,11 @@ Or for docker:
 ```bash
 #!/usr/bin/env bash
 
-  docker build --no-cache --pull -t ts_example -f docker/Dockerfile .
+  docker build --no-cache --pull -t ts_sonar -f docker/Dockerfile .
 
-  docker run -t --rm ts_example:latest ./check.sh
+  docker run -t --rm ts_sonar:latest ./check.sh
 
-  docker run -t --rm ts_example:latest npm test
+  docker run -t --rm ts_sonar:latest npm test
 ```
 
 ### Lint It and Fix It
@@ -92,7 +133,7 @@ NOTE: If you have npm installed gts globally, you could also run a `gts check` o
 
 ### Execution
 
-To run the ts_example, run something like this:
+To run the ts_sonar, run something like this:
 
 ```bash
   node build/src/index.js
@@ -119,7 +160,7 @@ that is used when we launch a `docker-run.sh`:
 which looks like this:
 
 ```bash
-  docker run -t --rm ts_example:latest ./run.sh
+  docker run -t --rm ts_sonar:latest ./run.sh
 ```
 
 Regardless of which way you run it, the expected output should look like this:
@@ -129,6 +170,21 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquet diam
 Semicolon
 [ 'am I tabbed?' ]
 ```
+
+### Sonar
+
+No sonar build is required in typescript, just a sonar run, which you can do like this:
+
+```bash
+  ./sonar-run.sh
+```
+
+which is the same as a:
+
+```bash
+  node sonar-push.js
+```
+
 
 ### Cleanup
 
@@ -143,25 +199,27 @@ To do that by hand, try something like this:
 ```bash
 ./node_modules/.bin/gts clean || rm -rf ./build
 
-rm -rf ./node_modules ./coverage
+rm -rf ./node_modules ./coverage ./.scannerwork ./test-report.xml
 
-docker rm $(docker ps -a | grep 'ts_example:latest' | awk '{print $NF}')
+docker rm $(docker ps -a | grep 'ts_sonar:latest' | awk '{print $NF}')
 
-docker rmi $(docker images | tr -s ' ' | grep 'ts_example latest' | cut -d' ' -f3)
+docker rmi $(docker images | tr -s ' ' | grep 'ts_sonar latest' | cut -d' ' -f3)
 
 docker image prune --force
 ```
 
-NOTE:  We don't attempt to delete any IDE directories like Visual Studio's .vscode,
+NOTE: We don't attempt to delete any IDE directories like Visual Studio's .vscode,
 but we have added that one to a .gitignore, so feel free to follow that pattern for
 different IDEs. If you do, you may also want to add your dirs to the `exclude` block
 in the `testPathIgnorePatterns` section of the `jest.config.js`.
+
+NOTE: We don't delete any sonar stuff.
 
 
 ### Why So Few Comments In The Code???
 
 If this project ever gets so non-trivial that it requires comments beyond the few ones
-already included, you should `git rm` the whole thing and start over with a better ts_example.
+already included, you should `git rm` the whole thing and start over with a better ts_sonar.
 
 
 ### None Of This Works!!!

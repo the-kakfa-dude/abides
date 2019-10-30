@@ -1,6 +1,6 @@
 ## Python3 Example with Quality Analysis via SonarQube (aka sonar)
 
-This is a **bare-ish bones** sample python 3 project that comes with a sonar server.
+This is a **bare-ish bones** sample Python 3 project that comes with a sonar server.
 
 For truly bare-bones, looke at the `py_example` sibling project.
 
@@ -45,7 +45,8 @@ then you can ctrl-c it, or open a new window, and run these:
   ./clean.sh && ./build.sh && ./sonar-build.sh && ./sonar-run.sh
 ```
 
-When that finishes, go here in a browser and go look at sonar:
+When that finishes, go here in a browser and go look at
+your quality analysis reports:
 
   http://localhost:9000/dashboard?id=py_sonar%3Aproject
 
