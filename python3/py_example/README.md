@@ -1,6 +1,6 @@
 # Example
 
-This is a **bare bones** sample python 3 project.
+This is a **bare bones** sample Python 3 project.
 
 Keep It Simple/Stupid.
 

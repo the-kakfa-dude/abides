@@ -60,7 +60,7 @@ task uberJar(type: Jar) {
 }
 
 dockerCompose {
-    useComposeFiles = ['docker-compose.yaml']
+    useComposeFiles = ['docker/sonar/docker-compose.yaml']
     containerLogToDir = project.file('sonar')
     removeVolumes = false
 }
