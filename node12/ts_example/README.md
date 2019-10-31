@@ -1,4 +1,4 @@
-## Example Project For Node 12 and TypeScript 3
+# Example
 
 This is a **bare bones** sample Node 12 project written in Typescript 3.
 
@@ -89,6 +89,8 @@ for a local copy of `gts`. To fix that, do an `npm install` or a `./build.sh` fi
 
 NOTE: If you have npm installed gts globally, you could also run a `gts check` or `gts fix` directly.
 
+NOTE: If you get complaints about outdated npm packages, a `./clean.sh ; ./build.sh` should fix it.
+
 
 ### Execution
 
@@ -169,13 +171,13 @@ already included, you should `git rm` the whole thing and start over with a bett
 These instructions assume you have almost nothing installed globally,
 but you do need a copy of Node 12, which you can find here:
 
-https://nodejs.org/dist/v12.12.0/
+https://nodejs.org/dist/v0.12.12/
 
 It might look like you need to download the source tarball and build,
 but if you're on a mac like me, this is the package installer, where
 all you need to do is click:
 
-https://nodejs.org/dist/v12.12.0/node-v12.12.0.pkg
+https://nodejs.org/dist/v0.12.12/node-v0.12.12.pkg
 
 If it still doesn't work, I recommend the following global installs:
 ```bash

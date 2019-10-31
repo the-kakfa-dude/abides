@@ -1,6 +1,6 @@
 ## Python3 Example with Quality Analysis via SonarQube (aka sonar)
 
-This is a **bare-ish bones** sample Python 3 project that comes with a sonar server.
+This is a **bare-ish bones** sample python 3 project that comes with a sonar server.
 
 For truly bare-bones, looke at the `py_example` sibling project.
 
@@ -45,8 +45,7 @@ then you can ctrl-c it, or open a new window, and run these:
   ./clean.sh && ./build.sh && ./sonar-build.sh && ./sonar-run.sh
 ```
 
-When that finishes, go here in a browser and go look at
-your quality analysis reports:
+When that finishes, go here in a browser and go look at sonar:
 
   http://localhost:9000/dashboard?id=py_sonar%3Aproject
 
@@ -71,21 +70,12 @@ If you change the rules, you have to rerun the sonar-run.sh script.
 
 If you also changed your code, you should first run the build.sh script, followed by the sonar-build.sh script.
 
+### Done for the Day
 
-### Done For The Day
-
-When you've fixed all the bugs and cleaned up all the code,
-you can stop your sonar server, and clean up, like this:
-
+When you've fixed all the problems, you can stop your sonar server:
 ```bash
   ./stop-sonar-server.sh
-  ./clean.sh
 ```
-
-Have no fear, when you start sonar up next time, your Quality Analyses
-projects and reports will still be there.
-
-(unless you start `docker volume rm`-ing or `docker volume prune`-ing or ...
 
 If you were tailing the sonar log, you can ctrl-c it now.
 
@@ -121,7 +111,6 @@ stop-sonar-server.sh
 
 my_project.sh
  - on a fresh checkout of this sample project, you can pass this script a new project name, and it will update all the `py_sonar` hardcoded references.
-
 
 ### Why comments this time ???
 
