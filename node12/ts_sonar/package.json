@@ -1,5 +1,5 @@
 {
-  "name": "ts_example",
+  "name": "ts_sonar",
   "version": "0.0.0",
   "description": "basic typescript3/node12 project",
   "main": "build/src/index.js",
@@ -19,11 +19,14 @@
   "scripts": {
     "compile": "tsc -p .",
     "execute": "node build/src/index.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "sonar": "node sonar-push.js"
   },
   "devDependencies": {
     "@types/jest": "24.0.21",
     "jest": "24.9.0",
+    "jest-sonar-reporter": "2.0.0",
+    "sonarqube-scanner": "2.5.0",
     "ts-jest": "24.1.0"
   },
   "dependencies": {
