@@ -16,9 +16,6 @@ plugins {
     // sonar
     id 'jacoco'
     id 'org.sonarqube' version '2.8'
-
-    // sonarqube server runs via docker-compose
-    id 'com.avast.gradle.docker-compose' version '0.9.4'
 }
 
 repositories {
@@ -57,12 +54,6 @@ task uberJar(type: Jar) {
     from {
         configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
-}
-
-dockerCompose {
-    useComposeFiles = ['docker/sonar/docker-compose.yaml']
-    containerLogToDir = project.file('sonar')
-    removeVolumes = false
 }
 
 task testReport(type: JacocoReport) {

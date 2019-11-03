@@ -71,22 +71,25 @@ test_db_1  | 1988-07-02 21:18:42.704 UTC [1] LOG:  database system is ready to a
 
 You should **also** do this first.
 
-### Starting
+```bash
+./start-sonar-server.sh; tail -F sonar.log.txt
+```
 
-To start the sonar, do this:
+When it you see the log saying something like:
 
 ```bash
-./gradlew composeUp
+sonarqube_1  | 2012.02.16 12:34:56 INFO  app[][o.s.a.SchedulerImpl] SonarQube is up
 ```
 
 Then go to:
 
   http://localhost:9000
 
-and wait until it's done "starting up".
 
 NOTE: failing to wait for the sonarqube server to be ready will cause the `./gradlew sonar` task to fail.
 
+
+## Gradle Tasks
 
 ### Clean It
 
@@ -157,6 +160,11 @@ Note: You can type `sonar` instead of `sonarqube` if you want.
 ./gradlew sonar
 ```
 
+For this project, the report can be found at:
+
+  http://localhost:9000/dashboard?id=java_db_sonar%3Aproject
+
+
 ## Development Loop
 
 If you want to rebuild and rerun everything from scratch, do this:
@@ -196,7 +204,7 @@ despite having screwed up the task hierarchy.
 
 You can stop your sonar server like this:
 ```bash
-./gradlew composeDown
+./stop-sonar-server.sh
 ```
 
 Then you can stop test db like this:
@@ -217,7 +225,6 @@ You may also wish to nuke your IDE artifacts, by running something like:
 ```bash
 rm -rf .classpath .idea .project .settings
 ```
-
 
 ### Database Problems
 

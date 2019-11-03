@@ -8,15 +8,6 @@ plugins {
     // sonar
     id "jacoco"
     id "org.sonarqube" version "2.8"
-
-    // sonarqube server runs via docker-compose
-    id 'com.avast.gradle.docker-compose' version '0.9.4'
-}
-
-dockerCompose {
-    useComposeFiles = ['docker/sonar/docker-compose.yaml']
-    containerLogToDir = project.file('sonar')
-    removeVolumes = false
 }
 
 application {
