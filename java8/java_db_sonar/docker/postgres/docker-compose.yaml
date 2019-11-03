@@ -10,6 +10,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=java_db_sonar_sudo
     volumes:
+      - ../../init.sql:/docker-entrypoint-initdb.d/init.sql
       - java_db_sonar:/var/lib/postgresql
       - java_db_sonar_data:/var/lib/postgresql/data
     ports:

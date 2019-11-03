@@ -20,21 +20,24 @@
 #
 
 # stop the database container
+#
 ./stop-db.sh
 
 # docker needs a couple of seconds to take down the postgres network
+#
 sleep 5s
 
 # remove the persistent storage, so the database comes up blank
+#
 docker volume rm -f postgres_py_db_sonar
 docker volume rm -f postgres_py_db_sonar_data
 
 # start it up again
+#
+# the init.sql at the docker entry point dir should take care of db setup
+#
 ./start-db.sh
 
-# give it time to start, and then run the setup script
-sleep 5s
-./setup-db.sh
-
 # give it time to finish
-sleep 2s
+#
+sleep 10s
