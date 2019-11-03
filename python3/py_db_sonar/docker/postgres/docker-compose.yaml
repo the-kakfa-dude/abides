@@ -10,6 +10,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=py_db_sonar_sudo
     volumes:
+      - ../../init.sql:/docker-entrypoint-initdb.d/init.sql
       - py_db_sonar:/var/lib/postgresql
       - py_db_sonar_data:/var/lib/postgresql/data
     ports:
