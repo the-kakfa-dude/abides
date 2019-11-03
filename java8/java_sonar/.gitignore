@@ -11,4 +11,5 @@ build
 .settings
 bin
 
-
+# Logs
+sonar.log.txt

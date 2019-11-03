@@ -13,3 +13,5 @@ bin
 
 # Logs
 postgres.log.txt
+sonar.log.txt
+
