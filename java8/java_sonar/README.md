@@ -12,19 +12,83 @@ If you don't need want quality analysis, see our sibling project `java_example`.
 If you want support for functional tests and/or a database, try `java_db_sonar`.
 
 
-### Start The Sonar Server
+### TL;DR
+
+Do this in one window:
 
 ```bash
-./gradlew composeUp
+./start-sonar-server.sh; tail -F sonar.log.txt
 ```
 
-Then go to:
+When it you see the log saying something like:
 
-  http://localhost:9000
+```bash
+sonarqube_1  | 2010.04.11 17:36:42 INFO  app[][o.s.a.SchedulerImpl] SonarQube is up
+```
 
-and wait until it's done "starting up".
+then you can ctrl-c it, or open a new window, and run these:
 
-NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gradlew sonar` task to fail.
+```bash
+# regular build and execute
+#
+./gradlew clean build run
+```
+
+```bash
+# push those results to sonar
+#
+./gradlew sonar
+```
+
+When that finishes, go here in a browser and go look at
+your quality analysis reports:
+
+  http://localhost:9000/dashboard?id=java_sonar%3Aproject
+
+
+NOTE: failing to wait for the sonarqube server to be ready will cause the `./gradlew sonar` task to fail.
+
+
+If you want to run the whole command pipeline from a clean slate, run this:
+
+```bash
+rm -rf .gradle ./build ./bin ; ./gradlew clean build run sonar
+```
+
+
+## Rename and Repackage This Thing
+
+If you want to take this starter project and turn it into your own project,
+you can run the `my_project.sh` script. Other starter projects in this repo
+will also have one of these.
+
+*Do This First*
+
+If you do this after changing stuff around, you'll get burned by the script.
+
+For the `my_project.sh` in _this_ project, you pass it a new project name and
+a new package name. The current project name is `java_sonar` and the current
+java package is `com.kakfa`
+
+For example, if you wanted to call this project `bunnies` and you were working for
+the platform team at a company called `example.com`, you would invoke the script
+like this:
+
+```bash
+./my_project.sh bunnies com.example.platform
+```
+
+That will change all the names in the source files in this project,
+and move the fixed up code to the new package location.
+
+Make sure you follow the final instruction by cd-ing out of the current directory,
+and then cd-ing back into the newly renamed one.
+
+After that, you can test the result by running a `rm -rf .gradle ;  ./gradlew run`
+and seeing if it spits out `Hello world.`
+
+
+## Gradle Tasks
 
 ### Clean It
 
@@ -35,6 +99,7 @@ you run the other tasks.
 ```bash
 ./gradlew clean
 ```
+
 
 ### Build It, Jar it, Test It, Write Report
 
@@ -69,6 +134,7 @@ An "uber" jar is a jar that has all of the project's other dependencies
 also zipped up in the jar files. For example, a regular jar might not
 include your Google Collections guava.jar, whereas an uberJar would.
 
+
 ### Run It
 
 A run will do a build.
@@ -76,6 +142,7 @@ A run will do a build.
 ```bash
 ./gradlew clean run
 ```
+
 
 ### Pushing Latest Build To Sonar
 
@@ -90,6 +157,10 @@ Note: You can type `sonar` instead of `sonarqube` if you want.
 ./gradlew sonar
 ```
 
+For this project, the report can be found at:
+
+  http://localhost:9000/dashboard?id=java_sonar%3Aproject
+
 
 ## Development Loop
 
@@ -99,7 +170,8 @@ If you want to rebuild and rerun everything from scratch, do this:
 rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test testReport sonarqube run
 ```
 
-When working properly, this is equivlent to a `./gradlew clean build sonar run`.
+When working properly, this is equivalent to a `./gradlew clean build sonar run`.
+
 
 ### But I Don't Need To Type That Much!
 
@@ -129,7 +201,7 @@ despite having screwed up the task hierarchy.
 
 You can stop your sonar server like this:
 ```bash
-./gradlew composeDown
+./stop-sonar-server.sh
 ```
 
 Then you can remove the local build artifacts like this:
@@ -145,37 +217,6 @@ You may also wish to nuke your IDE artifacts, by running something like:
 ```bash
 rm -rf .classpath .idea .project .settings
 ```
-
-## Rename and Repackage This Thing
-
-If you want to take this starter project and turn it into your own project,
-you can run the `my_project.sh` script. Other starter projects in this repo
-will also have one of these.
-
-*Do This First*
-
-If you do this after changing stuff around, you'll get burned by the script.
-
-For the `my_project.sh` in _this_ project, you pass it a new project name and
-a new package name. The current project name is `java_sonar` and the current
-java package is `com.kakfa`
-
-For example, if you wanted to call this project `bunnies` and you were working for
-the platform team at a company called `example.com`, you would invoke the script
-like this:
-
-```bash
-./my_project.sh bunnies com.example.platform
-```
-
-That will change all the names in the source files in this project,
-and move the fixed up code to the new package location.
-
-Make sure you follow the final instruction by cd-ing out of the current directory,
-and then cd-ing back into the newly renamed one.
-
-After that, you can test the result by running a `rm -rf .gradle ;  ./gradlew run`
-and seeing if it spits out `Hello world.`
 
 
 ## Enjoy!

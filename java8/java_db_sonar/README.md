@@ -11,88 +11,85 @@ If you don't need a database and/or functional tests, see our sibling project `j
 If you also don't need quality analysis, the barest-bones project is `java_example`.
 
 
+## Rename and Repackage This Thing
+
+If you want to take this starter project and turn it into your own project,
+you can run the `my_project.sh` script. Other starter projects in this repo
+will also have one of these.
+
+*Do This First*
+
+If you do this after changing stuff around, you'll get burned by the script.
+
+For the `my_project.sh` in _this_ project, you pass it a new project name and
+a new package name. The current project name is `java_db_sonar` and the current
+java package is `com.kakfa.db`
+
+For example, if you wanted to call this project `rabbits` and you were working for
+the devops team at a company called `example.com`, you would invoke the script
+like this:
+
+```bash
+./my_project.sh rabbits com.example.devops
+```
+
+That will change all the names in the source files in this project,
+and move the fixed up code to the new package location.
+
+Make sure you follow the final instruction by cd-ing out of the current directory,
+and then cd-ing back into the newly renamed one.
+
+After that, you can test the result by running a `rm -rf .gradle ;  ./gradlew run`
+and seeing if it spits out `Hello database.`
+
+
+## Database
+
+You should **also** do this first.
+
+### Starting The Database
+
+Start Postgres database ahead of time, because the initial download of the
+postgres docker container can be slow.
+
+```bash
+./start-db.sh ; tail -F postgres.log.txt
+```
+
+You can `ctrl-c` out of ^^^ whenever you like and check the log later if you want.
+
+You can also run that more than once without messing with the database.
+
+You'll know the database is ready when you see something like this in the log.:
+
+```bash
+test_db_1  | 1988-07-02 21:18:42.704 UTC [1] LOG:  database system is ready to accept connections
+```
+
+
 ## Quality Analysis
 
-### Starting
-To start the sonar, do this:
+You should **also** do this first.
+
 ```bash
-./gradlew composeUp
+./start-sonar-server.sh; tail -F sonar.log.txt
+```
+
+When it you see the log saying something like:
+
+```bash
+sonarqube_1  | 2012.02.16 12:34:56 INFO  app[][o.s.a.SchedulerImpl] SonarQube is up
 ```
 
 Then go to:
 
   http://localhost:9000
 
-and wait until it's done "starting up".
 
-NOTE: failing to wait for the sonarqubue server to be ready will cause the `./gradlew sonar` task to fail.
+NOTE: failing to wait for the sonarqube server to be ready will cause the `./gradlew sonar` task to fail.
 
-## Database
-### Starting
-Start the Postgres database now, since the first time you do this, it can be slow.
-```bash
-./start-db.sh ; tail -F postgres.log.txt
-```
 
-You can `ctrl-c` out of ^^^ whenever you like, it's just tailing the database log.
-Also, its safe to run it more than once, since it's just starting a docker-compose, which is idempotent.
-When you see that log say something like this, then the database is ready:
-```bash
-test_db_1  | 2012-12-21 03:52:16.269 UTC [1] LOG:  database system is ready to accept connections
-
-```
-
-### Setting Up
-When the database is started for the first time, it will be empty.
-Eventually it will be set up with via one of the helper scripts calling `setup-db.sh`.
-You can do that now as a test if you want:
-```bash
-./setup-db.sh
-``` 
-If it is happy, that setup script will output this:
-```bash
-CREATE ROLE
-CREATE DATABASE
-GRANT
-```
-
-### Resetting
-If you think something went wrong with the database, you can reset it by running:
-```bash
-./reset-db.sh
-```
-
-### Testing
-We included a convenience script for rerunning the functional tests which allows
-for a really tight development loop. It will drop all the database artifacts left
-behind by the functional tests, and then rerun them. 
-```bash
-./rerun-func-tests.sh 
-```
-#### Note
-At the end of running functional tests, we leave the db running, for debugging help.
-
-### Querying
-To login in to that database, run a:
-```bash
-./psql-user.sh
-```
-You can pass these scripts flags which then will then pass on to the system `psql`.
-If you weird problems, make sure your local psql is the same version (or higher) as the one in the docker container.
-You can do that like this:
-```bash
-psql --version
-``` 
-and this:
-```bash
-./psql-sudo.sh -c 'select version()'
-``` 
-As you will note, `psql-sudo.sh` script will access the database as the super user.
-If you can't do that, the database is probably down or badly damaged. 
-
-### Version
-Right now, we've pinned the postgres to version 11 in the `docker/postgres/docker-compose.yaml`
-because brew hasn't come out with v12 yet, even though that is the default postgres container now. 
+## Gradle Tasks
 
 ### Clean It
 
@@ -103,6 +100,7 @@ you run the other tasks.
 ```bash
 ./gradlew clean
 ```
+
 
 ### Build It, Jar it, Test It, Write Report
 
@@ -139,6 +137,7 @@ An "uber" jar is a jar that has all of the project's other dependencies
 also zipped up in the jar files. For example, a regular jar might not
 include your Google Collections guava.jar, whereas an uberJar would.
 
+
 ### Run It
 
 A run will do a build.
@@ -146,6 +145,7 @@ A run will do a build.
 ```bash
 ./gradlew clean run
 ```
+
 
 ### Pushing Latest Build To Sonar
 
@@ -160,6 +160,10 @@ Note: You can type `sonar` instead of `sonarqube` if you want.
 ./gradlew sonar
 ```
 
+For this project, the report can be found at:
+
+  http://localhost:9000/dashboard?id=java_db_sonar%3Aproject
+
 
 ## Development Loop
 
@@ -170,6 +174,7 @@ rm -rf .gradle ./build ./bin ; ./gradlew clean classes jar uberJar test funcTest
 ```
 
 When working properly, this is equivalent to a `./gradlew clean build sonar run`.
+
 
 ### But I Don't Need To Type That Much!
 
@@ -199,7 +204,7 @@ despite having screwed up the task hierarchy.
 
 You can stop your sonar server like this:
 ```bash
-./gradlew composeDown
+./stop-sonar-server.sh
 ```
 
 Then you can stop test db like this:
@@ -221,36 +226,110 @@ You may also wish to nuke your IDE artifacts, by running something like:
 rm -rf .classpath .idea .project .settings
 ```
 
-## Rename and Repackage This Thing
+### Database Problems
 
-If you want to take this starter project and turn it into your own project,
-you can run the `my_project.sh` script. Other starter projects in this repo
-will also have one of these.
+If you have problems with the database, it is usually because you didn't wait long enough
+before trying to access it.
 
-*Do This First*
+If you did, make sure the database initialization script ran.
 
-If you do this after changing stuff around, you'll get burned by the script.
-
-For the `my_project.sh` in _this_ project, you pass it a new project name and
-a new package name. The current project name is `java_db_sonar` and the current
-java package is `com.kakfa.db`
-
-For example, if you wanted to call this project `rabbits` and you were working for
-the devops team at a company called `example.com`, you would invoke the script
-like this:
+Look for this in the log:
 
 ```bash
-./my_project.sh rabbits com.example.devops
+test_db_1  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init.sql
+test_db_1  | CREATE ROLE
+test_db_1  | CREATE DATABASE
+test_db_1  | GRANT
 ```
 
-That will change all the names in the source files in this project,
-and move the fixed up code to the new package location.
+If that broke, make sure you haven't typo-ed the local `init.sql` file,
+or the local `docker/postgres/docker-compose.yaml` file where we mount
+that those init statements.
 
-Make sure you follow the final instruction by cd-ing out of the current directory,
-and then cd-ing back into the newly renamed one.
+If for some reason you want to run that database initialization by hand,
+there's a script for that:
 
-After that, you can test the result by running a `rm -rf .gradle ;  ./gradlew run`
-and seeing if it spits out `Hello database.`
+```bash
+./setup-db.sh
+``` 
+
+The first time that init runs, it should output this:
+
+```bash
+CREATE ROLE
+CREATE DATABASE
+GRANT
+```
+
+If it already ran, and you run it again, it should spit out:
+
+```bash
+psql:init.sql:2: ERROR:  role "java_db_sonar_user" already exists
+psql:init.sql:5: ERROR:  database "java_db_sonar" already exists
+GRANT
+```
+
+### Reset The DB
+
+If you think something went wrong with the database, you can reset it by running:
+
+```bash
+./reset-db.sh
+```
+
+This will stop the database, remove it's persistent storage, and restart it.
+
+If it still doesn't work, run a `./clean.sh` and then try resetting it again.
+
+
+### Testing With The DB
+
+The pattern used by the build scripts is to reset the database before running the functional tests.
+We also included a convenience script for rerunning the functional tests which allows
+for a really tight development loop. It will drop all the database artifacts left behind
+by the functional tests, and then rerun them _without_ restarting the database.
+
+```bash
+./rerun-func-tests.sh 
+```
+
+#### Note
+
+At the end of running functional tests, our scripts leave it running, for debugging help.
+
+
+### Query The DB
+
+To login in to the database, run a:
+
+```bash
+./psql-user.sh
+```
+
+You can pass these scripts flags which then will then pass on to the system `psql`.
+If you get weird problems, make sure your local `psql` is the same version (or higher)
+as the one in the docker container.
+
+You can do that like this:
+
+```bash
+# your version
+#
+psql --version
+
+# docker image version
+#
+./psql-sudo.sh -c 'select version()'
+``` 
+
+As you will note, `psql-sudo.sh` script will access the database as the super user.
+If you can't do that, the database is probably down or badly damaged. 
+
+
+### DB Version
+
+Right now, we've pinned the postgres to version 11 in the `docker/postgres/docker-compose.yaml`
+because brew hasn't come out with v12 yet, even though that is the default postgres container now. 
 
 
 ## Enjoy!
