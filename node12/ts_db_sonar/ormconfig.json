@@ -1,0 +1,20 @@
+{
+   "type": "postgres",
+   "host": "localhost",
+   "port": 5433,
+   "username": "ts_db_sonar_user",
+   "password": "ts_db_sonar_pass",
+   "database": "ts_db_sonar",
+   "synchronize": true,
+   "logging": true,
+   "entities": [
+      "build/src/entity/**/*.js"
+   ],
+   "migrations": [
+      "build/src/migration/*.js"
+   ],
+  "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+   }
+}

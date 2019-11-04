@@ -1,0 +1,8 @@
+.scannerwork
+.vscode
+build
+coverage
+node_modules
+postgres.log.txt
+sonar.log.txt
+test-report.xml
