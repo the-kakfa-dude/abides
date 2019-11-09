@@ -238,8 +238,47 @@ https://nodejs.org/dist/v12.12.0/node-v12.12.0.pkg
 If it still doesn't work, I recommend the following global installs:
 ```bash
   npm install typescript@3.6.4 -g
-  npm install tslint@5.20.0 -g
   npm install gts@1.1.0 -g
+```
+
+
+### Debuggers
+
+Here's a launch.json for vscode.
+
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch build/src/index.js (node)",
+      "program": "${workspaceFolder}/build/src/index.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Current Test",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "cwd": "${workspaceRoot}",
+      "args": ["${fileBasenameNoExtension}", "--no-cache", "--runInBand", "--config", "jest.config.js"],
+      "sourcemaps": "inline",
+      "disableOptimisticBPs": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Unit Tests",
+      "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+      "cwd": "${workspaceRoot}",
+      "args": ["--no-cache", "--runInBand", "--config", "jest.config.js", "--testPathPattern='/test/'"],
+      "sourcemaps": "inline",
+      "disableOptimisticBPs": true
+    }
+  ]
+}
 ```
 
 
