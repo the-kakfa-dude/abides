@@ -1,0 +1,12 @@
+{
+  "extends": "gts/tslint.json",
+  "linterOptions": {
+    "exclude": [
+      "**/*.json",
+      "src/entity/**/*.ts",
+      "src/migration/**/*.ts",
+      "build"
+    ]
+  }
+}
+

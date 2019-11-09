@@ -22,26 +22,24 @@ You should **do this first**, or on a fresh checkout of this project.
 
 ## Database
 
-You should **also** do this first.
-
-### Starting The Database
-
-Start Postgres database ahead of time, because the initial download of the
+Start the Postgres database ahead of time, because the initial download of the
 postgres docker container can be slow.
 
 ```bash
-./start-db.sh ; tail -F postgres.log.txt
+  ./start-db.sh ; tail -F postgres.log.txt
 ```
 
 You can `ctrl-c` out of ^^^ whenever you like and check the log later if you want.
 
-You can also run that more than once without messing with the database.
+You can also run that more than once without messing with the database, although
+you will lose your log if you do.
 
-You'll know the database is ready when you see something like this in the log.:
+You'll know the database is ready when you see something like this in the log:
 
 ```bash
 test_db_1  | 1995-08-89 23:51:12.704 UTC [1] LOG:  database system is ready to accept connections
 ```
+
 
 ## Quality Analysis
 
@@ -56,14 +54,15 @@ Do this in a new window:
   ./start-sonar-server.sh ; tail -F sonar.log.txt 
 ```
 
-When it you see the log saying something like this:
+It'll be done initializing when it you see the log saying something like this:
 
 ```bash
   sonarqube_1  | 1988.08.08 07:52:00 INFO  app[][o.s.a.SchedulerImpl] SonarQube is up
 ```
 
-Again, it's just tailing the log, so you can `ctrl-c` out of that whenever you want 
-and the sonar server will keep running.
+You can go here to see the SonarQube server:
+
+  http://localhost:9000
 
 To stop it, run:
 
@@ -81,7 +80,7 @@ When you run a `./clean.sh` it will:
  - delete the docker image for this `py_db_sonar` project,
  - remove the python virtual environment,
  - remove all the build and run artifacts.
- - truncate the postgres and sonar logs,
+ - truncate the postgres log,
  - exit happy.
  
  It will not do anything to the sonar server.

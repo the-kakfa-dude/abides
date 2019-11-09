@@ -12,8 +12,6 @@ rm -rf ./pylint.report
 
 truncate -s 0 ./postgres.log.txt
 
-truncate -s 0 ./sonar.log.txt 
-
 find . -type f | grep pyc$ | xargs rm -f
 
 find . -type d | grep __pycache__ | xargs rm -rf
