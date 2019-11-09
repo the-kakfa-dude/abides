@@ -1,0 +1,49 @@
+{
+  "name": "ts_http_db_sonar",
+  "version": "0.0.0",
+  "description": "basic typescript3/node12 project",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/src"
+  ],
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-kakfa-dude/abides.git"
+  },
+  "keywords": [
+    "typescript",
+    "starter project"
+  ],
+  "scripts": {
+    "clean": "./node_modules/.bin/gts clean",
+    "compile": "tsc -p .",
+    "launch:app": "./node_modules/.bin/ts-node src/app.ts",
+    "launch:index": "./node_modules/.bin/ts-node src/index.ts",
+    "test": "./node_modules/.bin/jest --runInBand --coverage",
+    "unittest": "./node_modules/.bin/jest --coverage --testPathPattern='/test/'",
+    "functest": "./node_modules/.bin/jest --coverage --testPathPattern='/func/' --runInBand",
+    "sonar": "node sonar-push.js",
+    "migration:generate": "./node_modules/.bin/typeorm migration:generate -n",
+    "migration:run": "./node_modules/.bin/typeorm migration:run",
+    "migration:revert": "./node_modules/.bin/typeorm migration:revert"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.22",
+    "jest": "^24.9.0",
+    "jest-sonar-reporter": "^2.0.0",
+    "sonarqube-scanner": "^2.5.0",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.4.1"
+  },
+  "dependencies": {
+    "@types/node": "^12.12.6",
+    "@types/pg": "^7.11.2",
+    "gts": "^1.1.0",
+    "pg": "^7.12.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.20",
+    "typescript": "^3.7.2"
+  }
+}

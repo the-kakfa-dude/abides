@@ -1,0 +1,26 @@
+# This was ripped from sonar's postgres container
+
+version: "2"
+
+services:
+  test_db:
+    image: postgres:11  # we can't use latest becuase brew lags behind, and we need psql
+    networks:
+      - ts_http_db_sonar_net
+    environment:
+      - POSTGRES_PASSWORD=ts_http_db_sonar_sudo
+    volumes:
+      - ../../init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ts_http_db_sonar:/var/lib/postgresql
+      - ts_http_db_sonar_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+networks:
+  ts_http_db_sonar_net:
+    driver: bridge
+
+volumes:
+  ts_http_db_sonar:
+  ts_http_db_sonar_data:
+
