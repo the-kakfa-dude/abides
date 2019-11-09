@@ -21,6 +21,7 @@
     "compile": "tsc -p .",
     "launch:app": "./node_modules/.bin/ts-node src/app.ts",
     "launch:index": "./node_modules/.bin/ts-node src/index.ts",
+    "launch:server": "./node_modules/.bin/ts-node src/server.ts",
     "test": "./node_modules/.bin/jest --runInBand --coverage",
     "unittest": "./node_modules/.bin/jest --coverage --testPathPattern='/test/'",
     "functest": "./node_modules/.bin/jest --coverage --testPathPattern='/func/' --runInBand",
@@ -38,8 +39,10 @@
     "ts-node": "^8.4.1"
   },
   "dependencies": {
+    "@types/express": "^4.17.2",
     "@types/node": "^12.12.7",
     "@types/pg": "^7.11.2",
+    "express": "^4.17.1",
     "gts": "^1.1.0",
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.13",
