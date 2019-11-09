@@ -38,7 +38,7 @@
     "ts-node": "^8.4.1"
   },
   "dependencies": {
-    "@types/node": "^12.12.6",
+    "@types/node": "^12.12.7",
     "@types/pg": "^7.11.2",
     "gts": "^1.1.0",
     "pg": "^7.12.1",
