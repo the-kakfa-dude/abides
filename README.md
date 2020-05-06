@@ -2,7 +2,8 @@
 
 ### What
 
-This repository contains starter projects for Java 8 and Python 3.
+This repository contains starter projects for Java 8, Python 3,
+and Typescript 3 running on Node 12.
 
 The first "example" project is _extremely_ minimal, to the point where
 no comments are required. That project is then extended to include other
@@ -17,51 +18,46 @@ The pattern used in these extensions is:
 
 ### Work In Progress
 
-We have a typescript project being worked on in the background.
+Currently in (inactive) development is adding an http server to the typescript/node
+project sequence (with presumably java and python to follow).
 
 
 ### Future Work
 
-#### HTTP Server
-
-Our next Python project will extend the one with a database and
-functional tests, to also include a REST server.
-
-
 #### Code Generation
 
-In a subsequent project, we may choose to define that REST Interface in Swagger,
-and appeal to some code-generation so that if that if someone changes the swagger
-without updating the underlying implementation, that implementation will generate
-(compile time) failures, for immediate alerting that something got out of sync.
-In this code generation project, we can also anticipate that certain implementation
-changes might also cause immediate failures if the swagger was not also updated.
+In a subsequent project, we may choose to have the http server expose a
+REST Interface that is defined in Swagger, and appeal to some swagger-gen 
+client/server generation. The idea is that if someone changes the API Interface
+without updating the underlying implementation, you get compile-time failures,
+for immediate alerting that something got out of sync.
 
-Code generation like this is a great feature to have when you have developers
-sharing interface boundaries, where those developers may not be colocated,
-or in other situations where you anticipate communication difficulties.
+This is useful for chaining together services in a multi-layer system when you have
+remote developers sharing interface boundaries and sucking at communication.
 
+Even if you eschew http services, you can still bastardize swagger-gen into an
+event-driven multilayer system by harvesting the generated code (especially the
+json pojos), and replacing the http calls with your producer/consumer code 
+to your message bus of choice.
 
-#### Sonar Plugin or Sonar Scanner
+#### Sonar Plugin or Sonar Scanner ?
 
 The sonar plugin for gradle is simple for default-like configurations,
 but gets messy when you want to add functional tests. Using the Sonar
-Scanner docker container we use in our Python projects might be cleaner.
-In a future project, we will make that an evaluation. One option here 
-would be to leave the gradle projects as they are, and use the scanner
-approach in conjunction with a new set of projects that are based on
-the maven build system.
+Scanner docker container we use in our Python projects is much cleaner,
+because all you really need is the sample sonar-project.properties file
+plus Building-a-docker-container 101, and the thing "just works".
 
+We should probably choose to leave the gradle projects as they are,
+and use the scanner approach in conjunction with a new set of projects
+that are based on the maven build system, since it has pretty good support
+for a project lifecycle that includes running integration (aka functional) tests.
 
 ### Your Feature Requests
 
-The point of this repository is to help developers to hit the ground running
-in a new language, especially where setting up a project with support for 
-static analysis, or a database, or an http server, or ... is a big a distraction.
+Hello? (hello?)
 
-We want to hear from YOU about what you like, what you don't, and what's missing.
-
-You can make your desires known by sending mail to: the dude AT kakfa dot com (no spaces)
+Is there any body IN there?
 
 ### Cheers and Good Luck!
 
