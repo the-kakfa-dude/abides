@@ -43,7 +43,7 @@
     "gts": "^1.1.0",
     "pg": "^7.12.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.20",
+    "typeorm": "^0.2.25",
     "typescript": "^3.7.2"
   }
 }
